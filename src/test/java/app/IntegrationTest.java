@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 @JoobyTest(App.class)
 public class IntegrationTest {
 
-    static OkHttpClient client = new OkHttpClient();
+    static final OkHttpClient client = new OkHttpClient();
 
     @Test
     public void shouldSayHi(int serverPort) throws IOException {
