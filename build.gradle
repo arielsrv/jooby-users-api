@@ -1,0 +1,67 @@
+buildscript {
+    ext {
+
+        joobyVersion = "3.0.0"
+    }
+}
+
+plugins {
+    id "application"
+    id "io.jooby.openAPI" version "${joobyVersion}"
+    id "io.jooby.run" version "${joobyVersion}"
+    id "io.spring.dependency-management" version "1.1.2"
+    id "com.google.osdetector" version "1.7.3"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.github.ben-manes.versions" version "0.47.0"
+}
+
+group "app"
+version "1.0.0"
+mainClassName = "app.App"
+sourceCompatibility = 17
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.jooby:jooby-bom:$joobyVersion"
+    }
+}
+
+dependencies {
+    implementation "io.jooby:jooby-netty"
+    implementation 'ch.qos.logback:logback-classic:1.4.8'
+    implementation 'io.jooby:jooby-guice:3.0.0'
+    implementation 'io.jooby:jooby-jackson:3.0.0'
+    implementation 'io.jooby:jooby-rxjava3:3.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.10.0"
+    testImplementation "io.jooby:jooby-test"
+    testImplementation "com.squareup.okhttp3:okhttp:4.11.0"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+/** Java debug information: */
+tasks.withType(JavaCompile) {
+    options.compilerArgs += [
+            '-parameters',
+    ]
+    options.debug = true
+}
+
+
+shadowJar {
+    mergeServiceFiles()
+}
+
+joobyRun.dependsOn openAPI
+
+jar.dependsOn openAPI

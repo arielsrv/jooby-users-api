@@ -1,0 +1,1 @@
+package app.model;public class UserDto {    public long Id;    public String Name;}
