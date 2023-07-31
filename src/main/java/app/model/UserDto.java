@@ -1,1 +1,1 @@
-package app.model;public class UserDto {    public long Id;    public String Name;}
+package app.model;import java.util.List;public class UserDto {    public long id;    public String name;    public List<PostDto> posts;}
