@@ -1,7 +1,7 @@
 buildscript {
     ext {
 
-        joobyVersion = "3.0.0"
+        joobyVersion = "3.0.1"
     }
 }
 
