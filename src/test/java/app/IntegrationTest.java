@@ -10,7 +10,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Test;
 
-@JoobyTest(ApiApplication.class)
+@JoobyTest(App.class)
 public class IntegrationTest {
 
     static final OkHttpClient client = new OkHttpClient();

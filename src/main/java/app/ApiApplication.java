@@ -5,6 +5,7 @@ import static io.jooby.rxjava3.Reactivex.rx;
 
 import app.modules.AppModule;
 import com.google.inject.Injector;
+import io.jooby.Context;
 import io.jooby.ExecutionMode;
 import io.jooby.Jooby;
 import io.jooby.OpenAPIModule;
@@ -12,7 +13,7 @@ import io.jooby.Server;
 import io.jooby.guice.GuiceModule;
 import io.jooby.jackson.JacksonModule;
 import io.jooby.netty.NettyServer;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ApiApplication extends Jooby {
@@ -32,9 +33,10 @@ public abstract class ApiApplication extends Jooby {
 
     public abstract void RegisterRoutes();
 
-    public <T, R> void Add(String verb, String path, Class<T> type, Function<T, R> action) {
-        T clazz = this.injector.getInstance(type);
-        this.route(verb, path, ctx -> action.apply(clazz));
+    public <T, R> void Add(String verb, String path, Class<T> type,
+        BiFunction<Context, T, R> action) {
+        T controller = this.injector.getInstance(type);
+        this.route(verb, path, ctx -> action.apply(ctx, controller));
     }
 
     @NotNull

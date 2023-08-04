@@ -1,12 +1,14 @@
 package app;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import app.controllers.UserController;
 import app.model.UserDto;
 import app.services.UserService;
 import io.jooby.Context;
-import io.jooby.test.MockRouter;
 import io.reactivex.rxjava3.core.Single;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +19,17 @@ public class UnitTest {
 
     @Test
     public void welcome() {
+        Context context = mock(Context.class);
+
         UserService userService = mock(UserService.class);
         when(userService.GetUsers()).thenReturn(GetUsers());
 
-        Context context = mock(Context.class);
-        when(context.require(UserService.class)).thenReturn(userService);
+        UserController userController = new UserController();
+        userController.userService = userService;
 
-        MockRouter router = new MockRouter(new App());
-        router.get("/users", context).value();
+        List<UserDto> actual = userController.GetUsers(context).blockingGet();
+        assertNotNull(actual);
+        assertEquals(1, actual.size());
     }
 
     private Single<List<UserDto>> GetUsers() {

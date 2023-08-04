@@ -1,1 +1,1 @@
-package app;import app.controllers.UserController;import app.services.UserService;public class App extends ApiApplication {    @Override    public void RegisterRoutes() {        Add("GET", "/users", UserService.class, UserService::GetUsers);    }}
+package app;import app.controllers.UserController;public class App extends ApiApplication {    @Override    public void RegisterRoutes() {        Add("GET", "/users", UserController.class,            (context, userController) -> userController.GetUsers(context));    }}
