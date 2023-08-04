@@ -15,6 +15,7 @@ public class UserController {
     public UserService userService;
 
     public Single<List<UserDto>> GetUsers(Context context) {
-        return this.userService.GetUsers();
+        return this.userService.
+            GetUsers();
     }
 }

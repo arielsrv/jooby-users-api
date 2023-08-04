@@ -9,16 +9,14 @@ import io.jooby.Context;
 import io.jooby.ExecutionMode;
 import io.jooby.Jooby;
 import io.jooby.OpenAPIModule;
-import io.jooby.Server;
 import io.jooby.guice.GuiceModule;
 import io.jooby.jackson.JacksonModule;
 import io.jooby.netty.NettyServer;
 import java.util.function.BiFunction;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class ApiApplication extends Jooby {
 
-    Injector injector;
+    final Injector injector;
 
     public ApiApplication() {
         this.injector = createInjector(new AppModule());
@@ -37,11 +35,5 @@ public abstract class ApiApplication extends Jooby {
         BiFunction<Context, T, R> action) {
         T controller = this.injector.getInstance(type);
         this.route(verb, path, ctx -> action.apply(ctx, controller));
-    }
-
-    @NotNull
-    @Override
-    public Server start() {
-        return super.start();
     }
 }
