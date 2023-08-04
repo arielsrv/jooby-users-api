@@ -1,8 +1,8 @@
-package app.modules;
+package app.core.modules;
 
-import app.providers.GuiceModuleProvider;
-import app.providers.JacksonModuleProvider;
-import app.providers.ObjectMapperProvider;
+import app.core.providers.GuiceModuleProvider;
+import app.core.providers.JacksonModuleProvider;
+import app.core.providers.ObjectMapperProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
 import io.jooby.OpenAPIModule;
@@ -15,6 +15,7 @@ public class AppModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(NettyServer.class).toInstance(new NettyServer());
+        bind(PrometheusModule.class).toInstance(new PrometheusModule());
         bind(OpenAPIModule.class).toInstance(new OpenAPIModule());
         bind(ObjectMapper.class).toProvider(ObjectMapperProvider.class);
         bind(JacksonModule.class).toProvider(JacksonModuleProvider.class);

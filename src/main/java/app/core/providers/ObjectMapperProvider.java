@@ -1,4 +1,4 @@
-package app.providers;
+package app.core.providers;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -1,4 +1,4 @@
-package app.providers;
+package app.core.providers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jooby.jackson.JacksonModule;

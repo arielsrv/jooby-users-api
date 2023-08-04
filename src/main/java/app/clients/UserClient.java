@@ -1,5 +1,6 @@
 package app.clients;
 
+import app.core.http.RestClient;
 import app.model.responses.UserResponse;
 import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Inject;

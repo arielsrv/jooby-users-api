@@ -1,4 +1,4 @@
-package app.clients;
+package app.core.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.rxjava3.core.Single;

@@ -1,4 +1,4 @@
-package app.providers;
+package app.core.providers;
 
 import com.google.inject.Injector;
 import io.jooby.guice.GuiceModule;
