@@ -1,14 +1,18 @@
 package app;
 
 import app.extensions.Api;
-import app.extensions.Routes;
+import app.services.UserService;
 import io.jooby.Jooby;
 
 public class App extends Jooby {
 
+
     {
         install(new Api());
-        install(new Routes());
+        get("/users", ctx -> {
+            UserService userService = require(UserService.class);
+            return userService.GetUsers();
+        });
     }
 
     public static void main(final String[] args) {
