@@ -1,15 +1,11 @@
 package app;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.model.UserDto;
 import app.services.UserService;
 import io.jooby.Context;
-import io.jooby.StatusCode;
-import io.jooby.Value;
-import io.jooby.test.MockContext;
 import io.jooby.test.MockRouter;
 import io.reactivex.rxjava3.core.Single;
 import java.util.ArrayList;

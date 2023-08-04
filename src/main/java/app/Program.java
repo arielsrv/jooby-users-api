@@ -1,0 +1,1 @@
+package app;import com.google.inject.Injector;import io.jooby.ExecutionMode;import io.jooby.Jooby;import java.util.function.Function;public class Program extends Jooby {    public static void main(final String[] args) {        ApiApplication app = new App();        app.start();    }}
