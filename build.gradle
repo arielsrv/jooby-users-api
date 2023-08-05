@@ -41,7 +41,7 @@ dependencyManagement {
 dependencies {
     annotationProcessor "io.jooby:jooby-apt"
     implementation "io.jooby:jooby-netty"
-    implementation 'ch.qos.logback:logback-classic:1.4.8'
+    implementation 'ch.qos.logback:logback-classic:1.4.9'
     implementation 'io.jooby:jooby-guice:3.0.1'
     implementation 'io.jooby:jooby-jackson:3.0.1'
     implementation 'io.jooby:jooby-rxjava3:3.0.1'

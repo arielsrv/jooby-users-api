@@ -23,7 +23,7 @@ public class PostClient {
     public Single<List<PostResponse>> GetPostByUserId(long userId) {
         String apiUrl = "%s/users/%d/posts".formatted(this.baseUrl, userId);
 
-        return this.restClient.Get(apiUrl, PostResponse[].class)
+        return this.restClient.GetSingle(apiUrl, PostResponse[].class)
             .map(response -> Arrays.stream(response).toList());
     }
 }

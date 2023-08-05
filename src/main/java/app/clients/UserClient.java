@@ -22,7 +22,8 @@ public class UserClient {
 
     public Single<List<UserResponse>> GetUsers() {
         String apiUrl = "%s/users".formatted(this.baseUrl);
-        return this.restClient.Get(apiUrl, UserResponse[].class)
+
+        return this.restClient.GetSingle(apiUrl, UserResponse[].class)
             .map(response -> Arrays.stream(response).toList());
     }
 }
