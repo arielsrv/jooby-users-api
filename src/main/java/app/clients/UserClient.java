@@ -1,5 +1,6 @@
 package app.clients;
 
+import app.core.http.Response;
 import app.core.http.RestClient;
 import app.model.responses.UserResponse;
 import io.reactivex.rxjava3.core.Single;
@@ -24,6 +25,7 @@ public class UserClient {
         String apiUrl = "%s/users".formatted(this.baseUrl);
 
         return this.restClient.GetSingle(apiUrl, UserResponse[].class)
-            .map(response -> Arrays.stream(response).toList());
+            .doOnSuccess(Response::VerifyOkOrFail)
+            .map(response -> Arrays.asList(response.GetData()));
     }
 }

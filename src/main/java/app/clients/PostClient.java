@@ -1,5 +1,6 @@
 package app.clients;
 
+import app.core.http.Response;
 import app.core.http.RestClient;
 import app.model.responses.PostResponse;
 import io.reactivex.rxjava3.core.Single;
@@ -24,6 +25,7 @@ public class PostClient {
         String apiUrl = "%s/users/%d/posts".formatted(this.baseUrl, userId);
 
         return this.restClient.GetSingle(apiUrl, PostResponse[].class)
-            .map(response -> Arrays.stream(response).toList());
+            .doOnSuccess(Response::VerifyOkOrFail)
+            .map(response -> Arrays.asList(response.GetData()));
     }
 }
