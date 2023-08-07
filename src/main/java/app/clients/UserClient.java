@@ -26,6 +26,6 @@ public class UserClient {
 
         return this.restClient.GetSingle(apiUrl, UserResponse[].class)
             .doOnSuccess(Response::VerifyOkOrFail)
-            .map(response -> Arrays.asList(response.GetData()));
+            .map(response -> List.of(response.GetData()));
     }
 }

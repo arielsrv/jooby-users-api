@@ -6,7 +6,6 @@ import app.model.responses.PostResponse;
 import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.Arrays;
 import java.util.List;
 
 @Singleton
@@ -26,6 +25,6 @@ public class PostClient {
 
         return this.restClient.GetSingle(apiUrl, PostResponse[].class)
             .doOnSuccess(Response::VerifyOkOrFail)
-            .map(response -> Arrays.asList(response.GetData()));
+            .map(response -> List.of(response.GetData()));
     }
 }
