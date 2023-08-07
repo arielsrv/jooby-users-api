@@ -24,7 +24,6 @@ public class PostClient {
         String apiUrl = "%s/users/%d/posts".formatted(this.baseUrl, userId);
 
         return this.restClient.GetSingle(apiUrl, PostResponse[].class)
-            .doOnSuccess(Response::VerifyOkOrFail)
-            .map(response -> List.of(response.GetData()));
+            .doOnSuccess(Response::VerifyOkOrFail).map(response -> List.of(response.GetData()));
     }
 }

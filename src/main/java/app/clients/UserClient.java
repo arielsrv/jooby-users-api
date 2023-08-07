@@ -6,7 +6,6 @@ import app.model.responses.UserResponse;
 import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -25,7 +24,6 @@ public class UserClient {
         String apiUrl = "%s/users".formatted(this.baseUrl);
 
         return this.restClient.GetSingle(apiUrl, UserResponse[].class)
-            .doOnSuccess(Response::VerifyOkOrFail)
-            .map(response -> List.of(response.GetData()));
+            .doOnSuccess(Response::VerifyOkOrFail).map(response -> List.of(response.GetData()));
     }
 }
