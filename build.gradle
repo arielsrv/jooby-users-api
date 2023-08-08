@@ -15,7 +15,7 @@ plugins {
 }
 
 joobyRun {
-    mainClass = "app.App"
+    mainClass = "com.github.App"
     restartExtensions = ["conf", "properties", "class"]
     compileExtensions = ["java", "kt"]
     port = 8080
