@@ -2,6 +2,7 @@ package app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.github.App;
 import io.jooby.StatusCode;
 import io.jooby.test.JoobyTest;
 import java.io.IOException;

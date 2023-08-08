@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import app.controllers.UserController;
-import app.model.UserDto;
-import app.services.UserService;
+import com.github.controllers.UserController;
+import com.github.model.UserDto;
+import com.github.services.UserService;
 import io.jooby.Context;
 import io.reactivex.rxjava3.core.Single;
 import java.util.ArrayList;
