@@ -32,3 +32,9 @@ jobs:
         uses: gradle/gradle-build-action@a4cf152f482c7ca97ef56ead29bf08bcd953284c # v2.7.0
         with:
           arguments: build
+
+      - name: Run snapshot action
+        uses: mikepenz/gradle-dependency-submission@{latest}
+        with:
+          gradle-project-path: "gradle-example"
+          gradle-build-module: ":app"
