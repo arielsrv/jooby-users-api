@@ -7,11 +7,11 @@ import jakarta.inject.Provider;
 
 public class JacksonModuleProvider implements Provider<JacksonModule> {
 
-    @Inject
-    ObjectMapper objectMapper;
+	@Inject
+	ObjectMapper objectMapper;
 
-    @Override
-    public JacksonModule get() {
-        return new JacksonModule(this.objectMapper);
-    }
+	@Override
+	public JacksonModule get() {
+		return new JacksonModule(this.objectMapper);
+	}
 }
