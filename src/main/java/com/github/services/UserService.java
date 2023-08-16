@@ -25,8 +25,9 @@ public class UserService {
         return this.userClient.GetUsers().flatMapObservable(Observable::fromIterable)
             .flatMapSingle(userResponse -> {
                 UserDto userDto = new UserDto();
-                userDto.id = userResponse.Id;
-                userDto.name = userResponse.Name;
+                userDto.id = userResponse.id;
+                userDto.name = userResponse.name;
+				userDto.email = userResponse.email;
 
                 return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
                     List<PostDto> postDtos = new ArrayList<>();
@@ -34,6 +35,7 @@ public class UserService {
                         PostDto postDto = new PostDto();
                         postDto.id = postResponse.id;
                         postDto.title = postResponse.title;
+						postDto.body = postResponse.body;
                         postDtos.add(postDto);
                     }
                     userDto.posts = postDtos;

@@ -44,8 +44,8 @@ public class UserServiceUnitTest {
 
     private Single<List<UserResponse>> GetUsers() {
         UserResponse userResponse = new UserResponse();
-        userResponse.Id = 1L;
-        userResponse.Name = "John Doe";
+        userResponse.id = 1L;
+        userResponse.name = "John Doe";
 
         return Single.just(List.of(userResponse));
     }
