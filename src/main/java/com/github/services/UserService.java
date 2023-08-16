@@ -36,7 +36,7 @@ public class UserService {
                         postDto.title = postResponse.title;
                         postDtos.add(postDto);
                     }
-                    userDto.postDtos = postDtos;
+                    userDto.posts = postDtos;
 
                     return Single.just(userDto);
                 });

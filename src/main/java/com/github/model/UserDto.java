@@ -6,6 +6,6 @@ public class UserDto {
 
 	public long id;
 	public String name;
-	public List<PostDto> postDtos;
+	public List<PostDto> posts;
 }
 
