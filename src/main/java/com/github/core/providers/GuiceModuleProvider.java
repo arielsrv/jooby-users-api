@@ -7,11 +7,11 @@ import jakarta.inject.Provider;
 
 public class GuiceModuleProvider implements Provider<GuiceModule> {
 
-    @Inject
-    Injector injector;
+	@Inject
+	Injector injector;
 
-    @Override
-    public GuiceModule get() {
-        return new GuiceModule(this.injector);
-    }
+	@Override
+	public GuiceModule get() {
+		return new GuiceModule(this.injector);
+	}
 }

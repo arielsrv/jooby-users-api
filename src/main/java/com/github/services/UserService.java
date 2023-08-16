@@ -15,33 +15,35 @@ import java.util.List;
 @Singleton
 public class UserService {
 
-    @Inject
-    public UserClient userClient;
+	@Inject
+	public UserClient userClient;
 
-    @Inject
-    public PostClient postClient;
+	@Inject
+	public PostClient postClient;
 
-    public Flowable<UserDto> GetUsers() {
-        return this.userClient.GetUsers().flatMap(userResponse -> {
-            UserDto userDto = new UserDto();
-            userDto.id = userResponse.Id;
-            userDto.name = userResponse.Name;
+	public Flowable<UserDto> GetUsers() {
+		return this.userClient.GetUsers().flatMap(userResponse -> {
+			UserDto userDto = new UserDto();
+			userDto.id = userResponse.id;
+			userDto.name = userResponse.name;
+			userDto.email = userResponse.email;
 
-            return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
-                    List<PostDto> postDtos = new ArrayList<>();
+			return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
+					List<PostDto> postDtos = new ArrayList<>();
 
-                    for (PostResponse postResponse : postsResponse) {
-                        PostDto postDto = new PostDto();
-                        postDto.id = postResponse.id;
-                        postDto.title = postResponse.title;
-                        postDtos.add(postDto);
-                    }
+					for (PostResponse postResponse : postsResponse) {
+						PostDto postDto = new PostDto();
+						postDto.id = postResponse.id;
+						postDto.title = postResponse.title;
+						postDto.body = postResponse.body;
+						postDtos.add(postDto);
+					}
 
-                    userDto.postDtos = postDtos;
+					userDto.posts = postDtos;
 
-                    return Single.just(userDto);
-                })
-                .toFlowable();
-        });
-    }
+					return Single.just(userDto);
+				})
+				.toFlowable();
+		});
+	}
 }

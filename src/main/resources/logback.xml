@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="true" scanPeriod="15 seconds">
-  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="stdout">
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n</pattern>
     </encoder>
   </appender>
 
-  <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
-    <queueSize>1000</queueSize>
-    <neverBlock>true</neverBlock>
+  <appender class="ch.qos.logback.classic.AsyncAppender" name="async">
     <appender-ref ref="stdout"/>
+    <neverBlock>true</neverBlock>
+    <queueSize>1000</queueSize>
   </appender>
 
   <root level="DEBUG">
