@@ -44,7 +44,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.4.11'
     implementation 'io.jooby:jooby-guice:3.0.1'
     implementation 'io.jooby:jooby-jackson:3.0.1'
-    implementation 'io.jooby:jooby-rxjava3:3.0.1'
+    implementation 'io.jooby:jooby-rxjava3:3.0.2'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:5.10.0"
