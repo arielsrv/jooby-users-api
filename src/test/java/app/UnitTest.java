@@ -9,6 +9,7 @@ import com.github.controllers.UserController;
 import com.github.model.UserDto;
 import com.github.services.UserService;
 import io.jooby.Context;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +28,16 @@ public class UnitTest {
         UserController userController = new UserController();
         userController.userService = userService;
 
-        List<UserDto> actual = userController.GetUsers(context).blockingGet();
+        List<UserDto> actual = userController.GetUsers(context).toList().blockingGet();
         assertNotNull(actual);
         assertEquals(1, actual.size());
     }
 
-    private Single<List<UserDto>> GetUsers() {
+    private Flowable<UserDto> GetUsers() {
         UserDto userDto = new UserDto();
         userDto.id = 1;
         userDto.name = "John Doe";
 
-        List<UserDto> users = new ArrayList<>();
-        users.add(userDto);
-
-        return Single.just(users);
+        return Flowable.just(userDto);
     }
 }
