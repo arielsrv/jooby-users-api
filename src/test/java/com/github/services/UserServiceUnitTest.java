@@ -18,43 +18,43 @@ import org.junit.jupiter.api.Test;
 
 public class UserServiceUnitTest {
 
-    private UserClient userClient;
-    private PostClient postClient;
+	private UserClient userClient;
+	private PostClient postClient;
 
-    @BeforeEach
-    public void setUp() {
-        this.userClient = mock(UserClient.class);
-        this.postClient = mock(PostClient.class);
-    }
+	@BeforeEach
+	public void setUp() {
+		this.userClient = mock(UserClient.class);
+		this.postClient = mock(PostClient.class);
+	}
 
-    @Test
-    public void GetUsers_Ok() {
-        when(this.userClient.GetUsers()).thenReturn(GetUsers());
-        when(this.postClient.GetPostByUserId(anyLong())).thenReturn(GetPosts());
+	@Test
+	public void GetUsers_Ok() {
+		when(this.userClient.GetUsers()).thenReturn(GetUsers());
+		when(this.postClient.GetPostByUserId(anyLong())).thenReturn(GetPosts());
 
-        UserService userService = new UserService();
-        userService.userClient = this.userClient;
-        userService.postClient = this.postClient;
+		UserService userService = new UserService();
+		userService.userClient = this.userClient;
+		userService.postClient = this.postClient;
 
-        List<UserDto> actual = userService.GetUsers().blockingGet();
-        assertNotNull(actual);
-        assertEquals(1, actual.size());
-    }
+		List<UserDto> actual = userService.GetUsers().blockingGet();
+		assertNotNull(actual);
+		assertEquals(1, actual.size());
+	}
 
 
-    private Single<List<UserResponse>> GetUsers() {
-        UserResponse userResponse = new UserResponse();
-        userResponse.id = 1L;
-        userResponse.name = "John Doe";
+	private Single<List<UserResponse>> GetUsers() {
+		UserResponse userResponse = new UserResponse();
+		userResponse.id = 1L;
+		userResponse.name = "John Doe";
 
-        return Single.just(List.of(userResponse));
-    }
+		return Single.just(List.of(userResponse));
+	}
 
-    private Single<List<PostResponse>> GetPosts() {
-        PostResponse postResponse = new PostResponse();
-        postResponse.id = 1;
-        postResponse.title = "title";
+	private Single<List<PostResponse>> GetPosts() {
+		PostResponse postResponse = new PostResponse();
+		postResponse.id = 1;
+		postResponse.title = "title";
 
-        return Single.just(List.of(postResponse));
-    }
+		return Single.just(List.of(postResponse));
+	}
 }

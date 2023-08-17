@@ -19,47 +19,47 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class RestClient {
 
-    private final static Logger logger = LoggerFactory.getLogger(RestClient.class);
+	private final static Logger logger = LoggerFactory.getLogger(RestClient.class);
 
-    @Inject
-    public OkHttpClient okHttpClient;
-    @Inject
-    public ObjectMapper objectMapper;
+	@Inject
+	public OkHttpClient okHttpClient;
+	@Inject
+	public ObjectMapper objectMapper;
 
 
-    public <T> Single<Response<T>> GetSingle(String url, Class<T> clazz) {
-        Request request = new Request.Builder().url(url).get().build();
-        return doRequest(url, request, clazz);
-    }
+	public <T> Single<Response<T>> GetSingle(String url, Class<T> clazz) {
+		Request request = new Request.Builder().url(url).get().build();
+		return doRequest(url, request, clazz);
+	}
 
-    public <T> Single<Response<T>> doRequest(String url, Request request, Class<T> clazz) {
-        return Single.create(emitter -> {
+	public <T> Single<Response<T>> doRequest(String url, Request request, Class<T> clazz) {
+		return Single.create(emitter -> {
 
-            logger.debug("GET / %s".formatted(url));
-            this.okHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    logger.error(e.getMessage());
-                    emitter.onError(e);
-                }
+			logger.debug("GET / %s".formatted(url));
+			this.okHttpClient.newCall(request).enqueue(new Callback() {
+				@Override
+				public void onFailure(@NotNull Call call, @NotNull IOException e) {
+					logger.error(e.getMessage());
+					emitter.onError(e);
+				}
 
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull okhttp3.Response response) {
-                    try {
-                        T result = null;
-                        if (response.isSuccessful()) {
-                            result = objectMapper.readValue(
-                                requireNonNull(response.body()).string(), clazz);
-                        }
-                        emitter.onSuccess(
-                            new Response<>(response.code(), response.headers(), response.body(),
-                                result));
-                    } catch (Exception e) {
-                        logger.error(e.getMessage());
-                        emitter.onError(e);
-                    }
-                }
-            });
-        });
-    }
+				@Override
+				public void onResponse(@NotNull Call call, @NotNull okhttp3.Response response) {
+					try {
+						T result = null;
+						if (response.isSuccessful()) {
+							result = objectMapper.readValue(
+								requireNonNull(response.body()).string(), clazz);
+						}
+						emitter.onSuccess(
+							new Response<>(response.code(), response.headers(), response.body(),
+								result));
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+						emitter.onError(e);
+					}
+				}
+			});
+		});
+	}
 }

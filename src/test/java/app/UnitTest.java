@@ -17,29 +17,29 @@ import org.junit.jupiter.api.Test;
 
 public class UnitTest {
 
-    @Test
-    public void welcome() {
-        Context context = mock(Context.class);
+	@Test
+	public void welcome() {
+		Context context = mock(Context.class);
 
-        UserService userService = mock(UserService.class);
-        when(userService.GetUsers()).thenReturn(GetUsers());
+		UserService userService = mock(UserService.class);
+		when(userService.GetUsers()).thenReturn(GetUsers());
 
-        UserController userController = new UserController();
-        userController.userService = userService;
+		UserController userController = new UserController();
+		userController.userService = userService;
 
-        List<UserDto> actual = userController.GetUsers(context).blockingGet();
-        assertNotNull(actual);
-        assertEquals(1, actual.size());
-    }
+		List<UserDto> actual = userController.GetUsers(context).blockingGet();
+		assertNotNull(actual);
+		assertEquals(1, actual.size());
+	}
 
-    private Single<List<UserDto>> GetUsers() {
-        UserDto userDto = new UserDto();
-        userDto.id = 1;
-        userDto.name = "John Doe";
+	private Single<List<UserDto>> GetUsers() {
+		UserDto userDto = new UserDto();
+		userDto.id = 1;
+		userDto.name = "John Doe";
 
-        List<UserDto> users = new ArrayList<>();
-        users.add(userDto);
+		List<UserDto> users = new ArrayList<>();
+		users.add(userDto);
 
-        return Single.just(users);
-    }
+		return Single.just(users);
+	}
 }

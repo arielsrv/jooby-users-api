@@ -11,11 +11,11 @@ import java.util.List;
 @Singleton
 public class UserController {
 
-    @Inject
-    public UserService userService;
+	@Inject
+	public UserService userService;
 
-    public Single<List<UserDto>> GetUsers(Context context) {
-        return this.userService.
-            GetUsers();
-    }
+	public Single<List<UserDto>> GetUsers(Context context) {
+		return this.userService.
+			GetUsers();
+	}
 }

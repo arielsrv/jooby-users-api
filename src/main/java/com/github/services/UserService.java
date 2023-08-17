@@ -20,20 +20,17 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class UserService {
 
-	@Inject
-	public UserClient userClient;
-
-	@Inject
-	public PostClient postClient;
-
 	private final static Logger logger = LoggerFactory.getLogger(UserService.class);
-
 	private final Cache<Long, List<PostDto>> postDtoCache = CacheBuilder.newBuilder()
 		.expireAfterWrite(1, TimeUnit.MINUTES)
 		.concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
 		.maximumSize(50)
 		.recordStats()
 		.build();
+	@Inject
+	public UserClient userClient;
+	@Inject
+	public PostClient postClient;
 
 	public Single<List<UserDto>> GetUsers() {
 		return this.userClient.GetUsers().flatMapObservable(Observable::fromIterable)
@@ -45,7 +42,8 @@ public class UserService {
 
 				List<PostDto> postsDto = this.postDtoCache.getIfPresent(userDto.id);
 				if (postsDto == null) {
-					logger.debug("MISS: posts for %d not found in-memory cache".formatted(userDto.id));
+					logger.debug(
+						"MISS: posts for %d not found in-memory cache".formatted(userDto.id));
 				}
 
 				return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
