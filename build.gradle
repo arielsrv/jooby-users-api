@@ -12,6 +12,7 @@ plugins {
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.47.0"
+    id "jacoco"
 }
 
 joobyRun {
@@ -77,3 +78,28 @@ shadowJar {
 joobyRun.dependsOn openAPI
 
 jar.dependsOn openAPI
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+jacocoTestReport {
+    // ./gradlew test jacocoTestReport from CLI
+    dependsOn test
+    group = "Reporting"
+    reports {
+        html.destination file("${layout.getBuildDirectory().get()}/reports/coverage")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/github/App.*',
+                                        '**/github/core/*',])
+        }))
+    }
+}
