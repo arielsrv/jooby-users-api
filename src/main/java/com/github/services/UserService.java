@@ -14,6 +14,8 @@ import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class UserService {
@@ -24,13 +26,14 @@ public class UserService {
 	@Inject
 	public PostClient postClient;
 
-	private final Cache<Long, List<PostDto>> postDtoCache = CacheBuilder.newBuilder()
-		.expireAfterWrite(1, TimeUnit.MINUTES).concurrencyLevel(getConcurrencyLevel())
-		.maximumSize(50).recordStats().build();
+	private final static Logger logger = LoggerFactory.getLogger(UserService.class);
 
-	private static int getConcurrencyLevel() {
-		return Runtime.getRuntime().availableProcessors() - 1;
-	}
+	private final Cache<Long, List<PostDto>> postDtoCache = CacheBuilder.newBuilder()
+		.expireAfterWrite(1, TimeUnit.MINUTES)
+		.concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
+		.maximumSize(50)
+		.recordStats()
+		.build();
 
 	public Single<List<UserDto>> GetUsers() {
 		return this.userClient.GetUsers().flatMapObservable(Observable::fromIterable)
@@ -40,12 +43,9 @@ public class UserService {
 				userDto.name = userResponse.name;
 				userDto.email = userResponse.email;
 
-				// guava poc, remove it
 				List<PostDto> postsDto = this.postDtoCache.getIfPresent(userDto.id);
-
-				if (postsDto != null) {
-					userDto.posts = postsDto;
-					return Single.just(userDto);
+				if (postsDto == null) {
+					logger.debug("MISS: posts for %d not found in-memory cache".formatted(userDto.id));
 				}
 
 				return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
@@ -58,7 +58,6 @@ public class UserService {
 						postDtos.add(postDto);
 					}
 					userDto.posts = postDtos;
-					this.postDtoCache.put(userDto.id, postDtos);
 					return Single.just(userDto);
 				});
 			}).collect(ArrayList::new, List::add);
