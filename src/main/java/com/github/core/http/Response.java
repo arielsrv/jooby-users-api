@@ -1,21 +1,15 @@
 package com.github.core.http;
 
 import java.io.IOException;
-import okhttp3.Headers;
-import okhttp3.ResponseBody;
 
 public class Response<T> {
 
 	private final int code;
-	private final Headers headers;
-	private final ResponseBody body;
 	private final T data;
 
 
-	public Response(int code, Headers headers, ResponseBody body, T data) {
+	public Response(int code, T data) {
 		this.code = code;
-		this.headers = headers;
-		this.body = body;
 		this.data = data;
 	}
 

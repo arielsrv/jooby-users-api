@@ -14,6 +14,7 @@ import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,23 +42,31 @@ public class UserService {
 				userDto.email = userResponse.email;
 
 				List<PostDto> postsDto = this.postDtoCache.getIfPresent(userDto.id);
-				if (postsDto == null) {
-					logger.debug(
-						"MISS: posts for %d not found in-memory cache".formatted(userDto.id));
+				if (postsDto != null) {
+					userDto.posts = postsDto;
+					return Single.just(userDto);
+				} else {
+					return getFromApi(userDto);
 				}
 
-				return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
-					List<PostDto> postDtos = new ArrayList<>();
-					for (PostResponse postResponse : postsResponse) {
-						PostDto postDto = new PostDto();
-						postDto.id = postResponse.id;
-						postDto.title = postResponse.title;
-						postDto.body = postResponse.body;
-						postDtos.add(postDto);
-					}
-					userDto.posts = postDtos;
-					return Single.just(userDto);
-				});
 			}).collect(ArrayList::new, List::add);
+	}
+
+	@NotNull
+	private Single<UserDto> getFromApi(UserDto userDto) {
+		return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
+			List<PostDto> postDtos = new ArrayList<>();
+			for (PostResponse postResponse : postsResponse) {
+				PostDto postDto = new PostDto();
+				postDto.id = postResponse.id;
+				postDto.title = postResponse.title;
+				postDto.body = postResponse.body;
+				postDtos.add(postDto);
+			}
+			userDto.posts = postDtos;
+			// only for poc/test
+			this.postDtoCache.put(userDto.id, userDto.posts);
+			return Single.just(userDto);
+		});
 	}
 }

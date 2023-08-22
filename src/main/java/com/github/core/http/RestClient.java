@@ -46,14 +46,12 @@ public class RestClient {
 				@Override
 				public void onResponse(@NotNull Call call, @NotNull okhttp3.Response response) {
 					try {
-						T result = null;
+						T data = null;
 						if (response.isSuccessful()) {
-							result = objectMapper.readValue(
+							data = objectMapper.readValue(
 								requireNonNull(response.body()).string(), clazz);
 						}
-						emitter.onSuccess(
-							new Response<>(response.code(), response.headers(), response.body(),
-								result));
+						emitter.onSuccess(new Response<>(response.code(), data));
 					} catch (Exception e) {
 						logger.error(e.getMessage());
 						emitter.onError(e);
