@@ -46,6 +46,7 @@ public class UserService {
 					userDto.posts = postsDto;
 					return Single.just(userDto);
 				} else {
+					logger.debug("cache miss key %d".formatted(userDto.id));
 					return getFromApi(userDto);
 				}
 
