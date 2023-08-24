@@ -11,7 +11,7 @@ import io.jooby.Jooby;
 import io.jooby.OpenAPIModule;
 import io.jooby.guice.GuiceModule;
 import io.jooby.jackson.JacksonModule;
-import io.jooby.netty.NettyServer;
+import io.jooby.jetty.JettyServer;
 import java.util.function.BiFunction;
 
 public abstract class ApiApplication extends Jooby {
@@ -31,7 +31,7 @@ public abstract class ApiApplication extends Jooby {
 	}
 
 	protected void RegisterServer() {
-		this.install(Resolve(NettyServer.class));
+		this.install(Resolve(JettyServer.class));
 	}
 
 	protected void RegisterExtensions() {
