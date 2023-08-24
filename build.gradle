@@ -47,6 +47,7 @@ dependencies {
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
+    implementation "com.squareup.okio:okio:3.5.0"
     implementation "com.google.guava:guava:32.1.2-jre"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.0"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:5.10.0"
