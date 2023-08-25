@@ -26,6 +26,7 @@ joobyRun {
 group "app"
 version "1.0.0"
 mainClassName = "com.github.App"
+sourceCompatibility = 17
 
 repositories {
     mavenLocal()
