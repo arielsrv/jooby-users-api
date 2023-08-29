@@ -1,4 +1,4 @@
-FROM gradle:8-jdk17 as build
+FROM gradle:8.3.0-jdk17 as build
 WORKDIR /users-api
 COPY build.gradle build.gradle
 COPY settings.gradle settings.gradle

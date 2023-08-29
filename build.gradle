@@ -63,7 +63,8 @@ test {
     useJUnitPlatform()
 }
 
-tasks.register("dockerBuild", Exec) {
+tasks.register("buildImage", Exec) {
+    description 'Builds the docker image'
     group = "docker"
     commandLine 'docker', 'build', '-t', 'users-api:latest', '.', '--progress', 'auto'
 }
