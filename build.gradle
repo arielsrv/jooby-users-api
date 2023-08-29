@@ -63,6 +63,11 @@ test {
     useJUnitPlatform()
 }
 
+tasks.register("dockerBuild", Exec) {
+    group = "docker"
+    commandLine 'docker', 'build', '-t', 'users-api:latest', '.', '--progress', 'auto'
+}
+
 /** Java debug information: */
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += [
