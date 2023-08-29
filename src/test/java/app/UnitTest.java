@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 public class UnitTest {
 
 	@Test
-	public void welcome() {
+	public void get_Users() {
 		Context context = mock(Context.class);
 
 		UserService userService = mock(UserService.class);

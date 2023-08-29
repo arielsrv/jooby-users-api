@@ -17,7 +17,7 @@ public class IntegrationTest {
 	static final OkHttpClient client = new OkHttpClient();
 
 	@Test
-	public void shouldSayHi(int serverPort) throws IOException {
+	public void get_Users(int serverPort) throws IOException {
 		Request req = new Request.Builder()
 			.url("http://localhost:" + serverPort + "/users")
 			.build();

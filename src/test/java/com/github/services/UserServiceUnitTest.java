@@ -31,9 +31,9 @@ public class UserServiceUnitTest {
 	}
 
 	@Test
-	public void GetUsers_Ok() {
-		when(this.userClient.GetUsers()).thenReturn(GetUsers());
-		when(this.postClient.GetPostByUserId(anyLong())).thenReturn(GetPosts());
+	public void get_Users() {
+		when(this.userClient.GetUsers()).thenReturn(getUsers());
+		when(this.postClient.GetPostByUserId(anyLong())).thenReturn(getPosts());
 
 		UserService userService = new UserService();
 		userService.userClient = this.userClient;
@@ -45,12 +45,12 @@ public class UserServiceUnitTest {
 	}
 
 	@Test
-	public void GetUsers_From_Cache_Ok() {
-		when(this.userClient.GetUsers()).thenReturn(GetUsers());
+	public void get_Users_From_Cache() {
+		when(this.userClient.GetUsers()).thenReturn(getUsers());
 
 		UserService userService = new UserService();
 		userService.appCache = CacheBuilder.newBuilder().build();
-		userService.appCache.put(1L, GetPostsDto());
+		userService.appCache.put(1L, getPostsDto());
 		userService.userClient = this.userClient;
 
 		List<UserDto> actual = userService.GetUsers().blockingGet();
@@ -59,7 +59,7 @@ public class UserServiceUnitTest {
 	}
 
 
-	private Single<List<UserResponse>> GetUsers() {
+	private Single<List<UserResponse>> getUsers() {
 		UserResponse userResponse = new UserResponse();
 		userResponse.id = 1L;
 		userResponse.name = "John Doe";
@@ -67,7 +67,7 @@ public class UserServiceUnitTest {
 		return Single.just(List.of(userResponse));
 	}
 
-	private Single<List<PostResponse>> GetPosts() {
+	private Single<List<PostResponse>> getPosts() {
 		PostResponse postResponse = new PostResponse();
 		postResponse.id = 1;
 		postResponse.title = "title";
@@ -75,7 +75,7 @@ public class UserServiceUnitTest {
 		return Single.just(List.of(postResponse));
 	}
 
-	private List<PostDto> GetPostsDto() {
+	private List<PostDto> getPostsDto() {
 		PostDto postDto = new PostDto();
 		postDto.id = 1;
 		postDto.title = "title";
