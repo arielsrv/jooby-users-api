@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class UserService {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserService.class);
-	private final Cache<Long, List<PostDto>> postDtoCache = CacheBuilder.newBuilder()
+	public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
 		.expireAfterWrite(1, TimeUnit.MINUTES)
 		.concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
 		.maximumSize(50)
@@ -41,20 +41,22 @@ public class UserService {
 				userDto.name = userResponse.name;
 				userDto.email = userResponse.email;
 
-				List<PostDto> postsDto = this.postDtoCache.getIfPresent(userDto.id);
-				if (postsDto != null) {
-					userDto.posts = postsDto;
+				userDto.posts = this.appCache.getIfPresent(userDto.id);
+				if (userDto.posts != null) {
+					logger.debug("posts from cache %d".formatted(userDto.id));
 					return Single.just(userDto);
-				} else {
-					logger.debug("cache miss key %d".formatted(userDto.id));
-					return getFromApi(userDto);
 				}
 
+				return getFromApi(userDto).flatMap(postResponse -> {
+					userDto.posts = postResponse;
+					this.appCache.put(userDto.id, userDto.posts);
+					return Single.just(userDto);
+				});
 			}).collect(ArrayList::new, List::add);
 	}
 
 	@NotNull
-	private Single<UserDto> getFromApi(UserDto userDto) {
+	private Single<List<PostDto>> getFromApi(UserDto userDto) {
 		return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
 			List<PostDto> postDtos = new ArrayList<>();
 			for (PostResponse postResponse : postsResponse) {
@@ -64,10 +66,7 @@ public class UserService {
 				postDto.body = postResponse.body;
 				postDtos.add(postDto);
 			}
-			userDto.posts = postDtos;
-			// only for poc/test
-			this.postDtoCache.put(userDto.id, userDto.posts);
-			return Single.just(userDto);
+			return Single.just(postDtos);
 		});
 	}
 }
