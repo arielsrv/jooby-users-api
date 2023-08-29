@@ -63,7 +63,7 @@ test {
     useJUnitPlatform()
 }
 
-tasks.register("buildImage", Exec) {
+tasks.register("dockerBuild", Exec) {
     description 'Builds the docker image'
     group = "docker"
     commandLine 'docker', 'build', '-t', 'users-api:latest', '.', '--progress', 'auto'
@@ -83,6 +83,7 @@ tasks.withType(JavaCompile).configureEach {
 
 shadowJar {
     mergeServiceFiles()
+    archiveFileName = 'app.jar'
 }
 
 joobyRun.dependsOn openAPI
