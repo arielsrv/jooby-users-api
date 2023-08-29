@@ -20,10 +20,10 @@ public class UserClient {
 		this.baseUrl = "https://gorest.co.in/public/v2";
 	}
 
-	public Single<List<UserResponse>> GetUsers() {
+	public Single<List<UserResponse>> getUsers() {
 		String apiUrl = "%s/users".formatted(this.baseUrl);
 
-		return this.restClient.GetSingle(apiUrl, UserResponse[].class)
-			.doOnSuccess(Response::VerifyOkOrFail).map(response -> List.of(response.GetData()));
+		return this.restClient.getSingle(apiUrl, UserResponse[].class)
+			.doOnSuccess(Response::verifyOkOrFail).map(response -> List.of(response.getData()));
 	}
 }

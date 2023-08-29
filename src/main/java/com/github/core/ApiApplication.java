@@ -21,35 +21,35 @@ public abstract class ApiApplication extends Jooby {
 	protected ApiApplication() {
 		this.injector = createInjector(new AppModule());
 		this.coreSettings();
-		this.RegisterExtensions();
-		this.RegisterRoutes();
+		this.registerExtensions();
+		this.registerRoutes();
 	}
 
 	private void coreSettings() {
 		this.use(rx());
-		this.RegisterServer();
+		this.registerServer();
 	}
 
-	protected void RegisterServer() {
-		this.install(Resolve(NettyServer.class));
+	protected void registerServer() {
+		this.install(resolve(NettyServer.class));
 	}
 
-	protected void RegisterExtensions() {
-		this.install(Resolve(GuiceModule.class));
-		this.install(Resolve(JacksonModule.class));
-		this.install(Resolve(OpenAPIModule.class));
-		this.install(Resolve(PrometheusModule.class));
+	protected void registerExtensions() {
+		this.install(resolve(GuiceModule.class));
+		this.install(resolve(JacksonModule.class));
+		this.install(resolve(OpenAPIModule.class));
+		this.install(resolve(PrometheusModule.class));
 	}
 
-	protected <T> T Resolve(Class<T> type) {
+	protected <T> T resolve(Class<T> type) {
 		return this.injector.getInstance(type);
 	}
 
-	protected final <TController, TResult> void Add(String verb, String path,
+	protected final <TController, TResult> void add(String verb, String path,
 		Class<TController> type, BiFunction<Context, TController, TResult> action) {
-		TController controller = Resolve(type);
+		TController controller = resolve(type);
 		this.route(verb, path, ctx -> action.apply(ctx, controller));
 	}
 
-	protected abstract void RegisterRoutes();
+	protected abstract void registerRoutes();
 }

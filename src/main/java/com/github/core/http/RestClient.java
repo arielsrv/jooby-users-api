@@ -27,7 +27,7 @@ public class RestClient {
 	public ObjectMapper objectMapper;
 
 
-	public <T> Single<Response<T>> GetSingle(String url, Class<T> clazz) {
+	public <T> Single<Response<T>> getSingle(String url, Class<T> clazz) {
 		Request request = new Request.Builder().url(url).get().build();
 		return doRequest(url, request, clazz);
 	}

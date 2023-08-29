@@ -32,28 +32,28 @@ public class UserServiceUnitTest {
 
 	@Test
 	public void get_Users() {
-		when(this.userClient.GetUsers()).thenReturn(getUsers());
-		when(this.postClient.GetPostByUserId(anyLong())).thenReturn(getPosts());
+		when(this.userClient.getUsers()).thenReturn(getUsers());
+		when(this.postClient.getPostByUserId(anyLong())).thenReturn(getPosts());
 
 		UserService userService = new UserService();
 		userService.userClient = this.userClient;
 		userService.postClient = this.postClient;
 
-		List<UserDto> actual = userService.GetUsers().blockingGet();
+		List<UserDto> actual = userService.getUsers().blockingGet();
 		assertNotNull(actual);
 		assertEquals(1, actual.size());
 	}
 
 	@Test
 	public void get_Users_From_Cache() {
-		when(this.userClient.GetUsers()).thenReturn(getUsers());
+		when(this.userClient.getUsers()).thenReturn(getUsers());
 
 		UserService userService = new UserService();
 		userService.appCache = CacheBuilder.newBuilder().build();
 		userService.appCache.put(1L, getPostsDto());
 		userService.userClient = this.userClient;
 
-		List<UserDto> actual = userService.GetUsers().blockingGet();
+		List<UserDto> actual = userService.getUsers().blockingGet();
 		assertNotNull(actual);
 		assertEquals(1, actual.size());
 	}

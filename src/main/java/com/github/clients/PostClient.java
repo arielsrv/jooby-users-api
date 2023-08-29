@@ -20,10 +20,10 @@ public class PostClient {
 		this.baseUrl = "https://gorest.co.in/public/v2";
 	}
 
-	public Single<List<PostResponse>> GetPostByUserId(long userId) {
+	public Single<List<PostResponse>> getPostByUserId(long userId) {
 		String apiUrl = "%s/users/%d/posts".formatted(this.baseUrl, userId);
 
-		return this.restClient.GetSingle(apiUrl, PostResponse[].class)
-			.doOnSuccess(Response::VerifyOkOrFail).map(response -> List.of(response.GetData()));
+		return this.restClient.getSingle(apiUrl, PostResponse[].class)
+			.doOnSuccess(Response::verifyOkOrFail).map(response -> List.of(response.getData()));
 	}
 }

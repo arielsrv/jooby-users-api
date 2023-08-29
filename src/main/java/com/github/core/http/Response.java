@@ -13,14 +13,14 @@ public class Response<T> {
 		this.data = data;
 	}
 
-	public void VerifyOkOrFail() throws IOException {
+	public void verifyOkOrFail() throws IOException {
 		if ((200 <= this.code) && (this.code <= 299)) {
 			return;
 		}
 		throw new IOException();
 	}
 
-	public T GetData() {
+	public T getData() {
 		return this.data;
 	}
 }

@@ -33,8 +33,8 @@ public class UserService {
 	@Inject
 	public PostClient postClient;
 
-	public Single<List<UserDto>> GetUsers() {
-		return this.userClient.GetUsers().flatMapObservable(Observable::fromIterable)
+	public Single<List<UserDto>> getUsers() {
+		return this.userClient.getUsers().flatMapObservable(Observable::fromIterable)
 			.flatMapSingle(userResponse -> {
 				UserDto userDto = new UserDto();
 				userDto.id = userResponse.id;
@@ -57,7 +57,7 @@ public class UserService {
 
 	@NotNull
 	private Single<List<PostDto>> getFromApi(UserDto userDto) {
-		return this.postClient.GetPostByUserId(userDto.id).flatMap(postsResponse -> {
+		return this.postClient.getPostByUserId(userDto.id).flatMap(postsResponse -> {
 			List<PostDto> postDtos = new ArrayList<>();
 			for (PostResponse postResponse : postsResponse) {
 				PostDto postDto = new PostDto();

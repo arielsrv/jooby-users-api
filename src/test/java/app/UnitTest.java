@@ -22,7 +22,7 @@ public class UnitTest {
 		Context context = mock(Context.class);
 
 		UserService userService = mock(UserService.class);
-		when(userService.GetUsers()).thenReturn(GetUsers());
+		when(userService.getUsers()).thenReturn(GetUsers());
 
 		UserController userController = new UserController();
 		userController.userService = userService;
