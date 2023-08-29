@@ -100,7 +100,8 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['**/github/App.*',
-                                        '**/github/core/*',])
+                                        '**/github/core/*',
+            ])
         }))
     }
 }
