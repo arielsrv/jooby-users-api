@@ -30,7 +30,7 @@ mainClassName = "com.github.App"
 sourceCompatibility = 17
 
 repositories {
-    mavenLocal()
+    google()
     mavenCentral()
 }
 
