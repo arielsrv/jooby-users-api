@@ -109,7 +109,7 @@ jacocoTestReport {
     reports {
         xml.required.set(true)
         csv.required.set(true)
-        html.destination file("${layout.getBuildDirectory().get()}/reports/coverage")
+        html.setDestination(file("${layout.getBuildDirectory().get()}/reports/coverage"))
     }
 
     afterEvaluate {
