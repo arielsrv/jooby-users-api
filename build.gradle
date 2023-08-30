@@ -2,6 +2,7 @@ buildscript {
     ext {
         joobyVersion = "3.0.5"
         jupiterVersion = "5.10.0"
+        okHttpVersion = "5.0.0-alpha.11"
     }
 }
 
@@ -49,14 +50,14 @@ dependencies {
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
     implementation "ch.qos.logback:logback-classic:1.4.11"
-    implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "com.squareup.okio:okio:3.5.0"
     implementation "com.google.guava:guava:32.1.2-jre"
 
     testImplementation "io.jooby:jooby-test:$joobyVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
-    testImplementation "com.squareup.okhttp3:okhttp:4.11.0"
+    testImplementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     testImplementation "org.mockito:mockito-core:5.5.0"
 }
 
