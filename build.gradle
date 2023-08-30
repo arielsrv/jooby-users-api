@@ -16,7 +16,13 @@ plugins {
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.47.0"
     id "org.owasp.dependencycheck" version "8.4.0"
+    // id "checkstyle"
 }
+//
+//checkstyle {
+//    toolVersion = '10.12.3'
+//    configFile = rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml")
+//}
 
 joobyRun {
     mainClass = "com.github.App"

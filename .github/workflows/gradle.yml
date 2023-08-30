@@ -14,7 +14,9 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
+  checks: write
+  pull-requests: write
 
 jobs:
   build:
@@ -22,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions: # The Dependency Submission API requires write permission
       contents: write
+      checks: write
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v3
@@ -82,3 +86,13 @@ jobs:
         with:
           name: jacoco-report
           path: target/site/jacoco/
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            build/test-results/**/*.trx
+            build/test-results/**/*.json
+
