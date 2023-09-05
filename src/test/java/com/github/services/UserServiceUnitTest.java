@@ -21,67 +21,67 @@ import org.junit.jupiter.api.Test;
 
 public class UserServiceUnitTest {
 
-	private UserClient userClient;
-	private PostClient postClient;
+  private UserClient userClient;
+  private PostClient postClient;
 
-	@BeforeEach
-	public void setUp() {
-		this.userClient = mock(UserClient.class);
-		this.postClient = mock(PostClient.class);
-	}
+  @BeforeEach
+  public void setUp() {
+    this.userClient = mock(UserClient.class);
+    this.postClient = mock(PostClient.class);
+  }
 
-	@Test
-	public void get_Users() {
-		when(this.userClient.getUsers()).thenReturn(getUsers());
-		when(this.postClient.getPostByUserId(anyLong())).thenReturn(getPosts());
+  @Test
+  public void get_Users() {
+    when(this.userClient.getUsers()).thenReturn(getUsers());
+    when(this.postClient.getPostByUserId(anyLong())).thenReturn(getPosts());
 
-		UserService userService = new UserService();
-		userService.userClient = this.userClient;
-		userService.postClient = this.postClient;
+    UserService userService = new UserService();
+    userService.userClient = this.userClient;
+    userService.postClient = this.postClient;
 
-		List<UserDto> actual = userService.getUsers().blockingGet();
-		assertNotNull(actual);
-		assertEquals(1, actual.size());
-	}
+    List<UserDto> actual = userService.getUsers().blockingGet();
+    assertNotNull(actual);
+    assertEquals(1, actual.size());
+  }
 
-	@Test
-	public void get_Users_From_Cache() {
-		when(this.userClient.getUsers()).thenReturn(getUsers());
+  @Test
+  public void get_Users_From_Cache() {
+    when(this.userClient.getUsers()).thenReturn(getUsers());
 
-		UserService userService = new UserService();
-		userService.appCache = CacheBuilder.newBuilder().build();
-		userService.appCache.put(1L, getPostsDto());
-		userService.userClient = this.userClient;
+    UserService userService = new UserService();
+    userService.appCache = CacheBuilder.newBuilder().build();
+    userService.appCache.put(1L, getPostsDto());
+    userService.userClient = this.userClient;
 
-		List<UserDto> actual = userService.getUsers().blockingGet();
-		assertNotNull(actual);
-		assertEquals(1, actual.size());
-	}
+    List<UserDto> actual = userService.getUsers().blockingGet();
+    assertNotNull(actual);
+    assertEquals(1, actual.size());
+  }
 
-	private Single<List<UserResponse>> getUsers() {
-		UserResponse userResponse = new UserResponse();
-		userResponse.id = 1L;
-		userResponse.name = "John Doe";
+  private Single<List<UserResponse>> getUsers() {
+    UserResponse userResponse = new UserResponse();
+    userResponse.id = 1L;
+    userResponse.name = "John Doe";
 
-		return Single.just(List.of(userResponse));
-	}
+    return Single.just(List.of(userResponse));
+  }
 
-	private Single<List<PostResponse>> getPosts() {
-		PostResponse postResponse = new PostResponse();
-		postResponse.id = 1;
-		postResponse.title = "title";
+  private Single<List<PostResponse>> getPosts() {
+    PostResponse postResponse = new PostResponse();
+    postResponse.id = 1;
+    postResponse.title = "title";
 
-		return Single.just(List.of(postResponse));
-	}
+    return Single.just(List.of(postResponse));
+  }
 
-	private List<PostDto> getPostsDto() {
-		PostDto postDto = new PostDto();
-		postDto.id = 1;
-		postDto.title = "title";
+  private List<PostDto> getPostsDto() {
+    PostDto postDto = new PostDto();
+    postDto.id = 1;
+    postDto.title = "title";
 
-		List<PostDto> postDtos = new ArrayList<>();
-		postDtos.add(postDto);
+    List<PostDto> postDtos = new ArrayList<>();
+    postDtos.add(postDto);
 
-		return postDtos;
-	}
+    return postDtos;
+  }
 }

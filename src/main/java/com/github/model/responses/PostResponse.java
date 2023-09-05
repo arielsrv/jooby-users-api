@@ -1,22 +1,14 @@
 package com.github.model.responses;
 
-/**
- * The type Post response.
- */
+/** The type Post response. */
 public class PostResponse {
 
-	/**
-	 * The Id.
-	 */
-	public long id;
+  /** The Id. */
+  public long id;
 
-	/**
-	 * The Title.
-	 */
-	public String title;
+  /** The Title. */
+  public String title;
 
-	/**
-	 * The Body.
-	 */
-	public String body;
+  /** The Body. */
+  public String body;
 }
