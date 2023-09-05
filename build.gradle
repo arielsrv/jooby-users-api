@@ -30,11 +30,9 @@ checkstyle {
 
 spotless {
     java {
+        checkstyle.configFile(rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml"))
         target '**/*.java'
-        checkstyle {
-            configFile = rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml")
-        }
-        googleJavaFormat()
+        palantirJavaFormat()
     }
 }
 
