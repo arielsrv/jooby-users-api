@@ -10,6 +10,9 @@ import io.jooby.guice.GuiceModule;
 import io.jooby.jackson.JacksonModule;
 import io.jooby.netty.NettyServer;
 
+/**
+ * The type App module.
+ */
 public class AppModule extends AbstractModule {
 
 	@Override

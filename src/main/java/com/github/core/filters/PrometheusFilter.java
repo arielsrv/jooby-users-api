@@ -5,6 +5,9 @@ import io.jooby.Route.Filter;
 import io.jooby.Route.Handler;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The type Prometheus filter.
+ */
 public class PrometheusFilter implements Route.Filter {
 
 	@NotNull

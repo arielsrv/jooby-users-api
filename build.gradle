@@ -16,13 +16,13 @@ plugins {
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.47.0"
     id "org.owasp.dependencycheck" version "8.4.0"
-    // id "checkstyle"
+    id "checkstyle"
 }
-//
-//checkstyle {
-//    toolVersion = '10.12.3'
-//    configFile = rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml")
-//}
+
+checkstyle {
+    toolVersion = '10.12.3'
+    configFile = rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
 
 joobyRun {
     mainClass = "com.github.App"
@@ -50,7 +50,6 @@ dependencyManagement {
 
 dependencies {
     annotationProcessor "io.jooby:jooby-apt:$joobyVersion"
-
     implementation "io.jooby:jooby-netty:$joobyVersion"
     implementation "io.jooby:jooby-guice:$joobyVersion"
     implementation "io.jooby:jooby-jackson:$joobyVersion"
@@ -59,12 +58,15 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "com.squareup.okio:okio:3.5.0"
     implementation "com.google.guava:guava:32.1.2-jre"
-
     testImplementation "io.jooby:jooby-test:$joobyVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
     testImplementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     testImplementation "org.mockito:mockito-core:5.5.0"
+}
+
+configurations {
+    all*.exclude group: 'com.google.collections', module: 'google-collections'
 }
 
 test {

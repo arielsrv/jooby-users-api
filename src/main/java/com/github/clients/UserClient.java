@@ -9,17 +9,31 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 
+/**
+ * The type User client.
+ */
 @Singleton
 public class UserClient {
 
 	private final String baseUrl;
+	/**
+	 * The Rest client.
+	 */
 	@Inject
 	RestClient restClient;
 
+	/**
+	 * Instantiates a new User client.
+	 */
 	public UserClient() {
 		this.baseUrl = "https://gorest.co.in/public/v2";
 	}
 
+	/**
+	 * Gets users.
+	 *
+	 * @return the users
+	 */
 	public Single<List<UserResponse>> getUsers() {
 		String apiUrl = "%s/users".formatted(this.baseUrl);
 

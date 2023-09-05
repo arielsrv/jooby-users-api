@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-
 public class UnitTest {
 
 	@Test
@@ -22,17 +21,17 @@ public class UnitTest {
 		Context context = mock(Context.class);
 
 		UserService userService = mock(UserService.class);
-		when(userService.getUsers()).thenReturn(GetUsers());
+		when(userService.getUsers()).thenReturn(getUsers());
 
 		UserController userController = new UserController();
 		userController.userService = userService;
 
-		List<UserDto> actual = userController.GetUsers(context).blockingGet();
+		List<UserDto> actual = userController.getUsers(context).blockingGet();
 		assertNotNull(actual);
 		assertEquals(1, actual.size());
 	}
 
-	private Single<List<UserDto>> GetUsers() {
+	private Single<List<UserDto>> getUsers() {
 		UserDto userDto = new UserDto();
 		userDto.id = 1;
 		userDto.name = "John Doe";

@@ -5,8 +5,14 @@ import io.jooby.guice.GuiceModule;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 
+/**
+ * The type Guice module provider.
+ */
 public class GuiceModuleProvider implements Provider<GuiceModule> {
 
+	/**
+	 * The Injector.
+	 */
 	@Inject
 	Injector injector;
 
