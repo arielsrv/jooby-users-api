@@ -12,16 +12,17 @@ import java.util.List;
 @Singleton
 public class UserController {
 
-  /** The User service. */
-  @Inject public UserService userService;
+    /** The User service. */
+    @Inject
+    public UserService userService;
 
-  /**
-   * Gets users.
-   *
-   * @param ignoredContext the ignored context
-   * @return the users
-   */
-  public Single<List<UserDto>> getUsers(Context ignoredContext) {
-    return this.userService.getUsers();
-  }
+    /**
+     * Gets users.
+     *
+     * @param ignoredContext the ignored context
+     * @return the users
+     */
+    public Single<List<UserDto>> getUsers(Context ignoredContext) {
+        return this.userService.getUsers();
+    }
 }

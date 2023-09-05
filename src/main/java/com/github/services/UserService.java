@@ -22,71 +22,66 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class UserService {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-  /** The App cache. */
-  public Cache<Long, List<PostDto>> appCache =
-      CacheBuilder.newBuilder()
-          .expireAfterWrite(1, TimeUnit.MINUTES)
-          .concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
-          .maximumSize(50)
-          .recordStats()
-          .build();
+    /** The App cache. */
+    public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(1, TimeUnit.MINUTES)
+            .concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
+            .maximumSize(50)
+            .recordStats()
+            .build();
 
-  /** The User client. */
-  @Inject public UserClient userClient;
+    /** The User client. */
+    @Inject
+    public UserClient userClient;
 
-  /** The Post client. */
-  @Inject public PostClient postClient;
+    /** The Post client. */
+    @Inject
+    public PostClient postClient;
 
-  /**
-   * Gets users.
-   *
-   * @return the users
-   */
-  public Single<List<UserDto>> getUsers() {
-    return this.userClient
-        .getUsers()
-        .flatMapObservable(Observable::fromIterable)
-        .flatMapSingle(
-            userResponse -> {
-              UserDto userDto = new UserDto();
-              userDto.id = userResponse.id;
-              userDto.name = userResponse.name;
-              userDto.email = userResponse.email;
+    /**
+     * Gets users.
+     *
+     * @return the users
+     */
+    public Single<List<UserDto>> getUsers() {
+        return this.userClient
+                .getUsers()
+                .flatMapObservable(Observable::fromIterable)
+                .flatMapSingle(userResponse -> {
+                    UserDto userDto = new UserDto();
+                    userDto.id = userResponse.id;
+                    userDto.name = userResponse.name;
+                    userDto.email = userResponse.email;
 
-              userDto.posts = this.appCache.getIfPresent(userDto.id);
-              if (userDto.posts != null) {
-                logger.debug("posts from cache %d".formatted(userDto.id));
-                return Single.just(userDto);
-              }
+                    userDto.posts = this.appCache.getIfPresent(userDto.id);
+                    if (userDto.posts != null) {
+                        logger.debug("posts from cache %d".formatted(userDto.id));
+                        return Single.just(userDto);
+                    }
 
-              return getFromApi(userDto)
-                  .flatMap(
-                      postResponse -> {
+                    return getFromApi(userDto).flatMap(postResponse -> {
                         userDto.posts = postResponse;
                         this.appCache.put(userDto.id, userDto.posts);
                         return Single.just(userDto);
-                      });
-            })
-        .collect(ArrayList::new, List::add);
-  }
+                    });
+                })
+                .collect(ArrayList::new, List::add);
+    }
 
-  @NotNull
-  private Single<List<PostDto>> getFromApi(UserDto userDto) {
-    return this.postClient
-        .getPostByUserId(userDto.id)
-        .flatMap(
-            postsResponse -> {
-              List<PostDto> postDtos = new ArrayList<>();
-              for (PostResponse postResponse : postsResponse) {
+    @NotNull
+    private Single<List<PostDto>> getFromApi(UserDto userDto) {
+        return this.postClient.getPostByUserId(userDto.id).flatMap(postsResponse -> {
+            List<PostDto> postDtos = new ArrayList<>();
+            for (PostResponse postResponse : postsResponse) {
                 PostDto postDto = new PostDto();
                 postDto.id = postResponse.id;
                 postDto.title = postResponse.title;
                 postDto.body = postResponse.body;
                 postDtos.add(postDto);
-              }
-              return Single.just(postDtos);
-            });
-  }
+            }
+            return Single.just(postDtos);
+        });
+    }
 }
