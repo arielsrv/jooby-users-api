@@ -5,19 +5,23 @@ import io.jooby.Extension;
 import io.jooby.Jooby;
 import org.jetbrains.annotations.NotNull;
 
-/** The type Prometheus module. */
+/**
+ * The type Prometheus module.
+ */
 public class PrometheusModule implements Extension {
 
-  private final String path;
+	private final String path;
 
-  /** Instantiates a new Prometheus module. */
-  public PrometheusModule() {
-    this.path = "/metrics";
-  }
+	/**
+	 * Instantiates a new Prometheus module.
+	 */
+	public PrometheusModule() {
+		this.path = "/metrics";
+	}
 
-  @Override
-  public void install(@NotNull Jooby application) {
-    application.use(new PrometheusFilter());
-    application.get(this.path, ctx -> "[metrics]");
-  }
+	@Override
+	public void install(@NotNull Jooby application) {
+		application.use(new PrometheusFilter());
+		application.get(this.path, ctx -> "[metrics]");
+	}
 }
