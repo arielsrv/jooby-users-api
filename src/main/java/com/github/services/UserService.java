@@ -18,21 +18,38 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The type User service.
+ */
 @Singleton
 public class UserService {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserService.class);
+	/**
+	 * The App cache.
+	 */
 	public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
 		.expireAfterWrite(1, TimeUnit.MINUTES)
 		.concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
 		.maximumSize(50)
 		.recordStats()
 		.build();
+	/**
+	 * The User client.
+	 */
 	@Inject
 	public UserClient userClient;
+	/**
+	 * The Post client.
+	 */
 	@Inject
 	public PostClient postClient;
 
+	/**
+	 * Gets users.
+	 *
+	 * @return the users
+	 */
 	public Single<List<UserDto>> getUsers() {
 		return this.userClient.getUsers().flatMapObservable(Observable::fromIterable)
 			.flatMapSingle(userResponse -> {

@@ -16,22 +16,48 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * The type Rest client.
+ */
 @Singleton
 public class RestClient {
 
 	private final static Logger logger = LoggerFactory.getLogger(RestClient.class);
 
+	/**
+	 * The Ok http client.
+	 */
 	@Inject
 	public OkHttpClient okHttpClient;
+	/**
+	 * The Object mapper.
+	 */
 	@Inject
 	public ObjectMapper objectMapper;
 
 
+	/**
+	 * Gets single.
+	 *
+	 * @param <T>   the type parameter
+	 * @param url   the url
+	 * @param clazz the clazz
+	 * @return the single
+	 */
 	public <T> Single<Response<T>> getSingle(String url, Class<T> clazz) {
 		Request request = new Request.Builder().url(url).get().build();
 		return doRequest(url, request, clazz);
 	}
 
+	/**
+	 * Do request single.
+	 *
+	 * @param <T>     the type parameter
+	 * @param url     the url
+	 * @param request the request
+	 * @param clazz   the clazz
+	 * @return the single
+	 */
 	public <T> Single<Response<T>> doRequest(String url, Request request, Class<T> clazz) {
 		return Single.create(emitter -> {
 
