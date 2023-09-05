@@ -8,36 +8,31 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.List;
 
-
-/**
- * The type User client.
- */
+/** The type User client. */
 @Singleton
 public class UserClient {
 
-	private final String baseUrl;
-	/**
-	 * The Rest client.
-	 */
-	@Inject
-	RestClient restClient;
+  private final String baseUrl;
 
-	/**
-	 * Instantiates a new User client.
-	 */
-	public UserClient() {
-		this.baseUrl = "https://gorest.co.in/public/v2";
-	}
+  /** The Rest client. */
+  @Inject RestClient restClient;
 
-	/**
-	 * Gets users.
-	 *
-	 * @return the users
-	 */
-	public Single<List<UserResponse>> getUsers() {
-		String apiUrl = "%s/users".formatted(this.baseUrl);
+  /** Instantiates a new User client. */
+  public UserClient() {
+    this.baseUrl = "https://gorest.co.in/public/v2";
+  }
 
-		return this.restClient.getSingle(apiUrl, UserResponse[].class)
-			.doOnSuccess(Response::verifyOkOrFail).map(response -> List.of(response.getData()));
-	}
+  /**
+   * Gets users.
+   *
+   * @return the users
+   */
+  public Single<List<UserResponse>> getUsers() {
+    String apiUrl = "%s/users".formatted(this.baseUrl);
+
+    return this.restClient
+        .getSingle(apiUrl, UserResponse[].class)
+        .doOnSuccess(Response::verifyOkOrFail)
+        .map(response -> List.of(response.getData()));
+  }
 }
