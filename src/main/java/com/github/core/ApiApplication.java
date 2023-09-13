@@ -67,9 +67,8 @@ public abstract class ApiApplication extends Jooby {
      * @param type the type
      * @param action the action
      */
-    protected final <TController, TResult> void add(
-            String verb, String path, Class<TController> type, BiFunction<Context, TController, TResult> action) {
-        TController controller = resolve(type);
+    protected final <TController, TResult> void add(String verb, String path, Class<TController> type, BiFunction<Context, TController, TResult> action) {
+		TController controller = resolve(type);
         this.route(verb, path, ctx -> action.apply(ctx, controller));
     }
 
