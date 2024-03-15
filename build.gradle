@@ -50,7 +50,7 @@ dependencies {
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
     implementation "ch.qos.logback:logback-classic:1.5.1"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    implementation "com.squareup.okio:okio:3.8.0"
+    implementation "com.squareup.okio:okio:3.9.0"
     implementation "com.google.guava:guava:33.1.0-jre"
     testImplementation "io.jooby:jooby-test:$joobyVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
