@@ -2,7 +2,7 @@ buildscript {
     ext {
         joobyVersion = "3.1.0"
         jupiterVersion = "5.10.2"
-        okHttpVersion = "5.0.0-alpha.13"
+        okHttpVersion = "5.0.0-alpha.14"
     }
 }
 
