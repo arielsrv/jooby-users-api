@@ -11,7 +11,7 @@ plugins {
     id "io.jooby.openAPI" version "${joobyVersion}"
     id "io.jooby.run" version "${joobyVersion}"
     id "jacoco"
-    id "io.spring.dependency-management" version "1.1.5"
+    id "io.spring.dependency-management" version "1.1.6"
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.51.0"
