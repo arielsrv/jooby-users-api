@@ -3,7 +3,7 @@ package com.github.model;
 /** The type Post dto. */
 public class PostDto {
 
-    /** The Id. */
+    /** The ID. */
     public long id;
 
     /** The Title. */

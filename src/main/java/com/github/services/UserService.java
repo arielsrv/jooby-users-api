@@ -65,11 +65,11 @@ public class UserService {
 
 				userDto.posts = this.appCache.getIfPresent(userDto.id);
 				if (userDto.posts != null) {
-					logger.debug("posts from cache %d".formatted(userDto.id));
+					logger.debug("posts from cache {}", userDto.id);
 					return Single.just(userDto);
 				}
 
-				logger.debug("posts from api %d".formatted(userDto.id));
+				logger.debug("posts from api {}", userDto.id);
 
 				return getFromApi(userDto).flatMap(postResponse -> {
 					userDto.posts = postResponse;

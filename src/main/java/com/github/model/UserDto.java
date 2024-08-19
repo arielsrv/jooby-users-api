@@ -5,7 +5,7 @@ import java.util.List;
 /** The type User dto. */
 public class UserDto {
 
-    /** The Id. */
+    /** The ID. */
     public long id;
 
     /** The Name. */
