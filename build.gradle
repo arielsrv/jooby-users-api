@@ -15,7 +15,7 @@ plugins {
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.51.0"
-    id 'com.diffplug.spotless' version '6.25.0'
+    id 'com.diffplug.spotless' version '7.0.0.BETA1'
 }
 
 joobyRun {
@@ -51,7 +51,7 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.5.7"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "com.squareup.okio:okio:3.9.0"
-    implementation "com.google.guava:guava:33.2.1-jre"
+    implementation "com.google.guava:guava:33.3.0-jre"
     testImplementation "io.jooby:jooby-test:$joobyVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
