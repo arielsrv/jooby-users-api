@@ -48,7 +48,7 @@ dependencies {
     implementation "io.jooby:jooby-guice:$joobyVersion"
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
-    implementation "ch.qos.logback:logback-classic:1.5.7"
+    implementation "ch.qos.logback:logback-classic:1.5.8"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "com.squareup.okio:okio:3.9.0"
     implementation "com.google.guava:guava:33.3.0-jre"
