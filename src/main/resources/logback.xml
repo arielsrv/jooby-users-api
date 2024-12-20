@@ -5,14 +5,13 @@
       <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n</pattern>
     </encoder>
   </appender>
-
   <appender class="ch.qos.logback.classic.AsyncAppender" name="async">
     <appender-ref ref="stdout"/>
     <neverBlock>true</neverBlock>
     <queueSize>1000</queueSize>
   </appender>
-
   <root level="DEBUG">
     <appender-ref ref="async"/>
   </root>
+  <logger name="io.netty" level="WARN"/>
 </configuration>

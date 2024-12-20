@@ -65,7 +65,6 @@ public class UserService {
 
 				userDto.posts = this.appCache.getIfPresent(userDto.id);
 				if (userDto.posts != null) {
-					logger.debug("posts from cache {}", userDto.id);
 					return Single.just(userDto);
 				}
 
@@ -91,6 +90,7 @@ public class UserService {
 				postDto.body = postResponse.body;
 				postDtos.add(postDto);
 			}
+			
 			return Single.just(postDtos);
 		});
 	}
