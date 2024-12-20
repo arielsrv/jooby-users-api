@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        joobyVersion = "3.4.1"
-        jupiterVersion = "5.11.0"
+        joobyVersion = "3.5.5"
+        jupiterVersion = "5.11.4"
         okHttpVersion = "5.0.0-alpha.14"
     }
 }
@@ -11,11 +11,10 @@ plugins {
     id "io.jooby.openAPI" version "${joobyVersion}"
     id "io.jooby.run" version "${joobyVersion}"
     id "jacoco"
-    id "io.spring.dependency-management" version "1.1.6"
+    id "io.spring.dependency-management" version "1.1.7"
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.51.0"
-    id 'com.diffplug.spotless' version '7.0.0.BETA2'
 }
 
 joobyRun {
@@ -48,15 +47,15 @@ dependencies {
     implementation "io.jooby:jooby-guice:$joobyVersion"
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
-    implementation "ch.qos.logback:logback-classic:1.5.8"
+    implementation "ch.qos.logback:logback-classic:1.5.14"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "com.squareup.okio:okio:3.9.1"
-    implementation "com.google.guava:guava:33.3.1-jre"
+    implementation "com.google.guava:guava:33.4.0-jre"
     testImplementation "io.jooby:jooby-test:$joobyVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
     testImplementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    testImplementation "org.mockito:mockito-core:5.13.0"
+    testImplementation "org.mockito:mockito-core:5.14.2"
 }
 
 test {
