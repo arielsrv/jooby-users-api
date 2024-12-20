@@ -5,6 +5,7 @@ import static io.jooby.rxjava3.Reactivex.rx;
 
 import com.github.core.modules.AppModule;
 import com.github.core.modules.PrometheusModule;
+import com.google.common.base.Strings;
 import com.google.inject.Injector;
 import io.jooby.Context;
 import io.jooby.Environment;
@@ -40,6 +41,11 @@ public abstract class ApiApplication extends Jooby {
 		this.registerRoutes();
 
 		String env = System.getenv("ENV");
+		if (Strings.isNullOrEmpty(env)) {
+			logger.info("Environment not set, defaulting to 'dev'");
+			env = "dev";
+		}
+
 		Environment environment = this.setEnvironmentOptions(
 			new EnvironmentOptions().setFilename("config/config.%s.conf".formatted(env)));
 		String message = environment.getConfig().getString("message");
