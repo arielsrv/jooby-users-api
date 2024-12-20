@@ -4,7 +4,7 @@ ADD . /app
 WORKDIR /app
 RUN gradle shadowJar
 
-FROM gcr.io/distroless/java17-debian12:nonroot AS release
-COPY --from=build /app /app
-WORKDIR /app
-CMD ["build/libs/app.jar"]
+FROM gcr.io/distroless/java17-debian12:latest AS release
+COPY --from=build /app/build /app/build
+WORKDIR /app/build/libs
+CMD ["app.jar"]
