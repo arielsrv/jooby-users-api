@@ -2,7 +2,7 @@ package app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.App;
+import com.github.Application;
 import io.jooby.StatusCode;
 import io.jooby.test.JoobyTest;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Test;
 
-@JoobyTest(App.class)
+@JoobyTest(Application.class)
 public class IntegrationTest {
 
     static final OkHttpClient client = new OkHttpClient();

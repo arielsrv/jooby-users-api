@@ -1,0 +1,1 @@
+package com.github;import static io.jooby.Router.GET;import com.github.controllers.UserController;import com.github.core.ApiRoutes;public class Routes extends ApiRoutes {	@Override	public void register() {		add(GET, "/users", UserController.class,			(context, userController) -> userController.getUsers(context));	}}
