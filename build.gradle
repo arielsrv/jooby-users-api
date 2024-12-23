@@ -72,7 +72,6 @@ tasks.withType(JavaCompile).configureEach {
 
 shadowJar {
     mergeServiceFiles()
-    archiveFileName = "app.jar"
 }
 
 joobyRun.dependsOn openAPI
