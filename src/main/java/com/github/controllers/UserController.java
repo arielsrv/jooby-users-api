@@ -22,7 +22,8 @@ public class UserController {
      * @param ignoredContext the ignored context
      * @return the users
      */
-    public Single<List<UserDto>> getUsers(Context ignoredContext) {
+    public Single<List<UserDto>> getUsers(Context ignoredContext){
+		Class<? extends Context> ctx = ignoredContext.getClass();
         return this.userService.getUsers();
     }
 }

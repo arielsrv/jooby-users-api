@@ -1,10 +1,14 @@
-# syntax=docker/dockerfile:1
-FROM gradle:8.11.1 AS build
-ADD . /app
-WORKDIR /app
+FROM gradle:8-jdk17 as build
+WORKDIR /users-api
+COPY build.gradle build.gradle
+COPY settings.gradle settings.gradle
+COPY src src
+COPY conf conf
 RUN gradle shadowJar
 
-FROM gcr.io/distroless/java17-debian12:latest AS release
-COPY --from=build /app/build /app/build
-WORKDIR /app/build/libs
-CMD ["app.jar"]
+FROM eclipse-temurin:17-jdk
+WORKDIR /users-api
+COPY --from=build /users-api/build/libs/users-api-1.0.0-all.jar app.jar
+COPY conf conf
+EXPOSE 8080
+CMD ["java", "-jar", "app.jar"]
