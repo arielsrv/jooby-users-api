@@ -2,7 +2,7 @@ buildscript {
     ext {
         joobyVersion = "3.5.5"
         jupiterVersion = "5.11.4"
-        okHttpVersion = "5.0.0-alpha.14"
+        okHttpVersion = "4.12.0"
     }
 }
 
@@ -10,28 +10,20 @@ plugins {
     id "application"
     id "io.jooby.openAPI" version "${joobyVersion}"
     id "io.jooby.run" version "${joobyVersion}"
-    id "jacoco"
     id "io.spring.dependency-management" version "1.1.7"
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.51.0"
-}
-
-joobyRun {
-    mainClass = "com.github.App"
-    restartExtensions = ["conf", "properties", "class"]
-    compileExtensions = ["java", "kt"]
-    port = 8080
-    waitTimeBeforeRestart = 500
+    id "jacoco"
 }
 
 group "app"
 version "1.0.0"
-mainClassName = "com.github.App"
+mainClassName = "app.App"
 sourceCompatibility = 17
 
 repositories {
-    google()
+    mavenLocal()
     mavenCentral()
 }
 
@@ -42,30 +34,29 @@ dependencyManagement {
 }
 
 dependencies {
-    annotationProcessor "io.jooby:jooby-apt:$joobyVersion"
+    annotationProcessor "io.jooby:jooby-apt"
+
     implementation "io.jooby:jooby-netty:$joobyVersion"
     implementation "io.jooby:jooby-guice:$joobyVersion"
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
+
+    implementation "io.jooby:jooby-netty"
     implementation "ch.qos.logback:logback-classic:1.5.15"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "com.squareup.okio:okio:3.9.1"
-    implementation "com.google.guava:guava:33.4.0-jre"
-    testImplementation "io.jooby:jooby-test:$joobyVersion"
+
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
+    testImplementation "io.jooby:jooby-test"
     testImplementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     testImplementation "org.mockito:mockito-core:5.14.2"
+
 }
 
 test {
     useJUnitPlatform()
-}
-
-tasks.register("dockerBuild", Exec) {
-    description 'Builds the docker image'
-    group = "docker"
-    commandLine 'docker', 'build', '-t', 'users-api:latest', '.', '--progress', 'auto'
+    finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
 /** Java debug information: */
@@ -79,21 +70,12 @@ tasks.withType(JavaCompile).configureEach {
     options.debug = true
 }
 
-
 shadowJar {
     mergeServiceFiles()
-    archiveFileName = 'app.jar'
 }
-
 
 joobyRun.dependsOn openAPI
-
 jar.dependsOn openAPI
-
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport // report is always generated after tests run
-}
 
 jacoco {
     toolVersion = "0.8.12"
@@ -108,13 +90,5 @@ jacocoTestReport {
         csv.required.set(true)
         html.required.set(true)
         html.outputLocation.set(layout.buildDirectory.dir("reports/coverage"))
-    }
-
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [//'**/github/App.*',
-                                        //'**/github/core/*',
-            ])
-        }))
     }
 }
