@@ -19,7 +19,7 @@ plugins {
 
 group "app"
 version "1.0.0"
-mainClassName = "app.App"
+mainClassName = "com.github.Program"
 sourceCompatibility = 17
 
 repositories {
@@ -72,6 +72,7 @@ tasks.withType(JavaCompile).configureEach {
 
 shadowJar {
     mergeServiceFiles()
+    archiveFileName = "app.jar"
 }
 
 joobyRun.dependsOn openAPI
