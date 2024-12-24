@@ -26,12 +26,11 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class ApiApplication extends Jooby {
 
+	private static final Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 	/**
 	 * The Injector.
 	 */
 	protected final Injector injector;
-
-	private static final Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 	private List<ApiRoute<?, ?>> routes;
 
 	/**
@@ -43,15 +42,14 @@ public abstract class ApiApplication extends Jooby {
 		this.coreSettings();
 		this.registerExtensions();
 
-		for (ApiRoute<?, ?> route : this.routes) {
-			Class<?> controllerClass = route.type;
-			Object controller = this.injector.getInstance(controllerClass);
+		this.routes.forEach(route -> {
+			Object controller = resolve(route.type);
 			this.route(route.verb, route.path, ctx -> {
 				@SuppressWarnings("unchecked")
 				BiFunction<Context, Object, ?> action = (BiFunction<Context, Object, ?>) route.action;
 				return action.apply(ctx, controller);
 			});
-		}
+		});
 
 		String envVar = System.getenv("ENV");
 		if (Strings.isNullOrEmpty(envVar)) {
@@ -70,16 +68,10 @@ public abstract class ApiApplication extends Jooby {
 		this.registerServer();
 	}
 
-	/**
-	 * Register server.
-	 */
 	protected void registerServer() {
 		this.install(resolve(NettyServer.class));
 	}
 
-	/**
-	 * Register extensions.
-	 */
 	protected void registerExtensions() {
 		this.install(resolve(GuiceModule.class));
 		this.install(resolve(JacksonModule.class));
@@ -87,20 +79,13 @@ public abstract class ApiApplication extends Jooby {
 		this.install(resolve(PrometheusModule.class));
 	}
 
-	/**
-	 * Resolve t.
-	 *
-	 * @param <T>  the type parameter
-	 * @param type the type
-	 * @return the t
-	 */
 	protected <T> T resolve(Class<T> type) {
 		return this.injector.getInstance(type);
 	}
 
 	protected void registerRoutes(Class<Routes> routesClass) {
 		try {
-			this.routes = routesClass.getDeclaredConstructor().newInstance().getApiRoutes();
+			this.routes = routesClass.getDeclaredConstructor().newInstance().getRoutes();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

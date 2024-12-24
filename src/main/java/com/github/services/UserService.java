@@ -90,7 +90,7 @@ public class UserService {
 				postDto.body = postResponse.body;
 				postDtos.add(postDto);
 			}
-			
+
 			return Single.just(postDtos);
 		});
 	}

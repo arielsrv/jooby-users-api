@@ -5,15 +5,19 @@ import io.jooby.guice.GuiceModule;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 
-/** The type Guice module provider. */
+/**
+ * The type Guice module provider.
+ */
 public class GuiceModuleProvider implements Provider<GuiceModule> {
 
-    /** The Injector. */
-    @Inject
-    Injector injector;
+	/**
+	 * The Injector.
+	 */
+	@Inject
+	Injector injector;
 
-    @Override
-    public GuiceModule get() {
-        return new GuiceModule(this.injector);
-    }
+	@Override
+	public GuiceModule get() {
+		return new GuiceModule(this.injector);
+	}
 }

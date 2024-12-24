@@ -14,16 +14,16 @@ import org.junit.jupiter.api.Test;
 @JoobyTest(Application.class)
 public class IntegrationTest {
 
-    static final OkHttpClient client = new OkHttpClient();
+	static final OkHttpClient client = new OkHttpClient();
 
-    @Test
-    public void get_Users(int serverPort) throws IOException {
-        Request req = new Request.Builder()
-                .url("http://localhost:" + serverPort + "/users")
-                .build();
+	@Test
+	public void get_Users(int serverPort) throws IOException {
+		Request req = new Request.Builder()
+			.url("http://localhost:" + serverPort + "/users")
+			.build();
 
-        try (Response rsp = client.newCall(req).execute()) {
-            assertEquals(StatusCode.OK.value(), rsp.code());
-        }
-    }
+		try (Response rsp = client.newCall(req).execute()) {
+			assertEquals(StatusCode.OK.value(), rsp.code());
+		}
+	}
 }

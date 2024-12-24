@@ -10,8 +10,8 @@
     <neverBlock>true</neverBlock>
     <queueSize>1000</queueSize>
   </appender>
+  <logger level="WARN" name="io.netty"/>
   <root level="DEBUG">
     <appender-ref ref="async"/>
   </root>
-  <logger name="io.netty" level="WARN"/>
 </configuration>
