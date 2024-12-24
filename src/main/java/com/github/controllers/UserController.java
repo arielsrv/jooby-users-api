@@ -14,8 +14,7 @@ public class UserController {
 	@Inject
 	public UserService userService;
 
-	public Single<List<UserDto>> getUsers(Context ignoredContext) {
-		Class<? extends Context> ctx = ignoredContext.getClass();
+	public Single<List<UserDto>> getUsers(Context ignoredCtx) {
 		return this.userService.getUsers();
 	}
 }

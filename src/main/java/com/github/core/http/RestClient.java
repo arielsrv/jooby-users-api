@@ -1,8 +1,5 @@
 package com.github.core.http;
 
-import static io.jooby.Router.GET;
-import static java.util.Objects.requireNonNull;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Inject;
@@ -13,71 +10,56 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/**
- * The type Rest client.
- */
 @Singleton
 public class RestClient {
 
-	private static final Logger logger = LoggerFactory.getLogger(RestClient.class);
-
-	/**
-	 * The Ok http client.
-	 */
 	@Inject
 	public OkHttpClient okHttpClient;
 
-	/**
-	 * The Object mapper.
-	 */
 	@Inject
 	public ObjectMapper objectMapper;
 
-	/**
-	 * Gets single.
-	 *
-	 * @param <T>   the type parameter
-	 * @param url   the url
-	 * @param clazz the clazz
-	 * @return the single
-	 */
 	public <T> Single<Response<T>> get(String url, Class<T> clazz) {
-		return doRequest(GET, url, clazz);
+		return makeRequest("GET", url, clazz);
 	}
 
-	/**
-	 * Do request single.
-	 *
-	 * @param <T>     the type parameter
-	 * @param url     the url*
-	 * @param clazz   the clazz
-	 * @return the single
-	 */
-	public <T> Single<Response<T>> doRequest(String method, String url, Class<T> clazz) {
+	public <T> Single<Response<T>> makeRequest(String method, String url, Class<T> clazz) {
 		Request request = new Request.Builder().url(url).method(method, null).build();
 		return Single.create(emitter -> {
-			this.okHttpClient.newCall(request).enqueue(new Callback() {
+			Call call = this.okHttpClient.newCall(request);
+			call.enqueue(new Callback() {
 				@Override
 				public void onFailure(@NotNull Call call, @NotNull IOException e) {
-					logger.error(e.getMessage());
-					emitter.onError(e);
+					emitterOnError(e);
+				}
+
+				private void emitterOnError(Exception e) {
+					if (!emitter.isDisposed()) {
+						emitter.onError(e);
+					}
 				}
 
 				@Override
 				public void onResponse(@NotNull Call call, @NotNull okhttp3.Response response) {
 					try {
-						T data = null;
-						if (response.isSuccessful()) {
-							data = objectMapper.readValue(requireNonNull(response.body()).string(),
-								clazz);
+						if (!response.isSuccessful()) {
+							throw new IOException("Unexpected HTTP response: " + response.code());
 						}
-						emitter.onSuccess(new Response<>(response.code(), data));
+
+						T unmarshal;
+						try (okhttp3.ResponseBody responseBody = response.body()) {
+							if (responseBody == null) {
+								throw new IOException("Response body is null");
+							}
+							unmarshal = objectMapper.readValue(responseBody.string(), clazz);
+						}
+
+						if (!emitter.isDisposed()) {
+							emitter.onSuccess(new Response<>(response.code(), unmarshal));
+						}
 					} catch (Exception e) {
-						logger.error(e.getMessage());
-						emitter.onError(e);
+						emitterOnError(e);
 					}
 				}
 			});

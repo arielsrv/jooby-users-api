@@ -2,9 +2,6 @@ package com.github;
 
 import com.github.core.ApiApplication;
 
-/**
- * The type App.
- */
 public class Application extends ApiApplication {
 
 	@Override

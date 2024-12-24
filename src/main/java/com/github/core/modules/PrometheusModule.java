@@ -12,9 +12,6 @@ public class PrometheusModule implements Extension {
 
 	private final String path;
 
-	/**
-	 * Instantiates a new Prometheus module.
-	 */
 	public PrometheusModule() {
 		this.path = "/metrics";
 	}

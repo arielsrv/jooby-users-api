@@ -14,7 +14,6 @@ import jakarta.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.jetbrains.annotations.NotNull;
 
 @Singleton
 public class UserService {
@@ -53,7 +52,6 @@ public class UserService {
 			}).collect(ArrayList::new, List::add);
 	}
 
-	@NotNull
 	private Single<List<PostDto>> getFromApi(UserDto userDto) {
 		return this.postClient.getPosts(userDto.id).flatMap(postsResponse -> {
 			List<PostDto> postDtos = new ArrayList<>();
