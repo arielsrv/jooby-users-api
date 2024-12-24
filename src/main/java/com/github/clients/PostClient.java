@@ -40,7 +40,7 @@ public class PostClient {
 		String apiUrl = "%s/users/%d/posts".formatted(this.baseUrl, userId);
 
 		return this.restClient
-			.getSingle(apiUrl, PostResponse[].class)
+			.get(apiUrl, PostResponse[].class)
 			.doOnSuccess(Response::verifyOkOrFail)
 			.map(response -> List.of(response.getData()));
 	}

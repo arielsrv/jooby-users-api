@@ -1,5 +1,6 @@
 package com.github.core.http;
 
+import static io.jooby.Router.GET;
 import static java.util.Objects.requireNonNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,21 +44,20 @@ public class RestClient {
 	 * @param clazz the clazz
 	 * @return the single
 	 */
-	public <T> Single<Response<T>> getSingle(String url, Class<T> clazz) {
-		Request request = new Request.Builder().url(url).get().build();
-		return doRequest(url, request, clazz);
+	public <T> Single<Response<T>> get(String url, Class<T> clazz) {
+		return doRequest(GET, url, clazz);
 	}
 
 	/**
 	 * Do request single.
 	 *
 	 * @param <T>     the type parameter
-	 * @param url     the url
-	 * @param request the request
+	 * @param url     the url*
 	 * @param clazz   the clazz
 	 * @return the single
 	 */
-	public <T> Single<Response<T>> doRequest(String url, Request request, Class<T> clazz) {
+	public <T> Single<Response<T>> doRequest(String method, String url, Class<T> clazz) {
+		Request request = new Request.Builder().url(url).method(method, null).build();
 		return Single.create(emitter -> {
 			this.okHttpClient.newCall(request).enqueue(new Callback() {
 				@Override

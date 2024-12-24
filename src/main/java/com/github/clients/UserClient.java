@@ -38,7 +38,7 @@ public class UserClient {
 		String apiUrl = "%s/users".formatted(this.baseUrl);
 
 		return this.restClient
-			.getSingle(apiUrl, UserResponse[].class)
+			.get(apiUrl, UserResponse[].class)
 			.doOnSuccess(Response::verifyOkOrFail)
 			.map(response -> List.of(response.getData()));
 	}
