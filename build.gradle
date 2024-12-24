@@ -20,7 +20,6 @@ plugins {
 group "app"
 version "1.0.0"
 mainClassName = "com.github.Program"
-sourceCompatibility = 17
 
 repositories {
     mavenLocal()
