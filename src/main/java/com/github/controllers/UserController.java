@@ -8,24 +8,12 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.List;
 
-/**
- * The type User controller.
- */
 @Singleton
 public class UserController {
 
-	/**
-	 * The User service.
-	 */
 	@Inject
 	public UserService userService;
 
-	/**
-	 * Gets users.
-	 *
-	 * @param ignoredContext the ignored context
-	 * @return the users
-	 */
 	public Single<List<UserDto>> getUsers(Context ignoredContext) {
 		Class<? extends Context> ctx = ignoredContext.getClass();
 		return this.userService.getUsers();
