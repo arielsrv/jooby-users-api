@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.github.ApiContext;
 import com.github.controllers.UserController;
 import com.github.model.UserDto;
 import com.github.services.UserService;
@@ -18,7 +19,7 @@ public class UnitTest {
 
 	@Test
 	public void get_Users() {
-		Context context = mock(Context.class);
+		ApiContext context = mock(ApiContext.class);
 
 		UserService userService = mock(UserService.class);
 		when(userService.getUsers()).thenReturn(getUsers());

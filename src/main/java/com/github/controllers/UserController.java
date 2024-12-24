@@ -1,5 +1,6 @@
 package com.github.controllers;
 
+import com.github.ApiContext;
 import com.github.model.UserDto;
 import com.github.services.UserService;
 import io.jooby.Context;

@@ -18,24 +18,12 @@ import io.jooby.jackson.JacksonModule;
 import io.jooby.netty.NettyServer;
 import java.util.List;
 import java.util.function.BiFunction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/**
- * The type Api application.
- */
 public abstract class ApiApplication extends Jooby {
 
-	private static final Logger logger = LoggerFactory.getLogger(ApiApplication.class);
-	/**
-	 * The Injector.
-	 */
 	protected final Injector injector;
 	private List<ApiRoute<?, ?>> routes;
 
-	/**
-	 * Instantiates a new Api application.
-	 */
 	protected ApiApplication() {
 		this.injector = createInjector(new AppModule());
 		this.init();
