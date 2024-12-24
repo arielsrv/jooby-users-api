@@ -31,7 +31,7 @@ public class UserService {
 	 */
 	public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
 		.expireAfterWrite(1, TimeUnit.MINUTES)
-		.concurrencyLevel(Runtime.getRuntime().availableProcessors() - 1)
+		.concurrencyLevel(4)
 		.maximumSize(50)
 		.recordStats()
 		.build();
@@ -54,9 +54,7 @@ public class UserService {
 	 * @return the users
 	 */
 	public Single<List<UserDto>> getUsers() {
-		return this.userClient
-			.getUsers()
-			.flatMapObservable(Observable::fromIterable)
+		return this.userClient.getUsers().flatMapObservable(Observable::fromIterable)
 			.flatMapSingle(userResponse -> {
 				UserDto userDto = new UserDto();
 				userDto.id = userResponse.id;
@@ -75,8 +73,7 @@ public class UserService {
 					this.appCache.put(userDto.id, userDto.posts);
 					return Single.just(userDto);
 				});
-			})
-			.collect(ArrayList::new, List::add);
+			}).collect(ArrayList::new, List::add);
 	}
 
 	@NotNull
