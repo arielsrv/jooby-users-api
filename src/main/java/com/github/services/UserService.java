@@ -66,8 +66,6 @@ public class UserService {
 					return Single.just(userDto);
 				}
 
-				logger.debug("posts from api {}", userDto.id);
-
 				return getFromApi(userDto).flatMap(postResponse -> {
 					userDto.posts = postResponse;
 					this.appCache.put(userDto.id, userDto.posts);

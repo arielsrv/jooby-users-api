@@ -54,7 +54,6 @@ public abstract class ApiApplication extends Jooby {
 
 		String envVar = System.getenv("ENV");
 		if (Strings.isNullOrEmpty(envVar)) {
-			logger.info("Environment not set, defaulting to 'dev'");
 			envVar = "dev";
 		}
 

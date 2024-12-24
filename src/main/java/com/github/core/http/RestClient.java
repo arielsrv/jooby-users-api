@@ -59,7 +59,6 @@ public class RestClient {
 	 */
 	public <T> Single<Response<T>> doRequest(String url, Request request, Class<T> clazz) {
 		return Single.create(emitter -> {
-			logger.debug("GET / {}", url);
 			this.okHttpClient.newCall(request).enqueue(new Callback() {
 				@Override
 				public void onFailure(@NotNull Call call, @NotNull IOException e) {
