@@ -4,10 +4,9 @@ import com.google.inject.Injector;
 import io.jooby.guice.GuiceModule;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
+import jakarta.inject.Singleton;
 
-/**
- * The type Guice module provider.
- */
+@Singleton
 public class GuiceModuleProvider implements Provider<GuiceModule> {
 
 	@Inject
