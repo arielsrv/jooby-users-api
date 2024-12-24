@@ -39,7 +39,8 @@ public abstract class ApiApplication extends Jooby {
 	protected ApiApplication() {
 		this.injector = createInjector(new AppModule());
 		this.init();
-		this.coreSettings();
+		this.use(rx());
+		this.registerServer();
 		this.registerExtensions();
 
 		this.routes.forEach(route -> {
@@ -63,10 +64,6 @@ public abstract class ApiApplication extends Jooby {
 
 	public abstract void init();
 
-	private void coreSettings() {
-		this.use(rx());
-		this.registerServer();
-	}
 
 	protected void registerServer() {
 		this.install(resolve(NettyServer.class));
