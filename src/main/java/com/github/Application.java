@@ -1,6 +1,6 @@
 package com.github;
 
-import com.github.core.ApiApplication;
+import com.github.sdk.ApiApplication;
 
 public class Application extends ApiApplication {
 

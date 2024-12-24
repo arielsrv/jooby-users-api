@@ -1,4 +1,4 @@
-package com.github.core.http;
+package com.github.sdk.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.rxjava3.core.Single;

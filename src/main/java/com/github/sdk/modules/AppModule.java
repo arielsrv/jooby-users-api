@@ -1,9 +1,9 @@
-package com.github.core.modules;
+package com.github.sdk.modules;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.core.providers.GuiceModuleProvider;
-import com.github.core.providers.JacksonModuleProvider;
-import com.github.core.providers.ObjectMapperProvider;
+import com.github.sdk.providers.GuiceModuleProvider;
+import com.github.sdk.providers.JacksonModuleProvider;
+import com.github.sdk.providers.ObjectMapperProvider;
 import com.google.inject.AbstractModule;
 import io.jooby.OpenAPIModule;
 import io.jooby.guice.GuiceModule;

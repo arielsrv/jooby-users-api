@@ -1,6 +1,6 @@
-package com.github.core.modules;
+package com.github.sdk.modules;
 
-import com.github.core.filters.PrometheusFilter;
+import com.github.sdk.filters.PrometheusFilter;
 import io.jooby.Extension;
 import io.jooby.Jooby;
 import org.jetbrains.annotations.NotNull;

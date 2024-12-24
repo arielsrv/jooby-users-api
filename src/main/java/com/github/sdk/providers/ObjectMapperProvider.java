@@ -1,4 +1,4 @@
-package com.github.core.providers;
+package com.github.sdk.providers;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;

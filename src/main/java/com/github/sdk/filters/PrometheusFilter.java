@@ -1,4 +1,4 @@
-package com.github.core.filters;
+package com.github.sdk.filters;
 
 import io.jooby.Route;
 import io.jooby.Route.Filter;

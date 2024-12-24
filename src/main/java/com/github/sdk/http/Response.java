@@ -1,4 +1,4 @@
-package com.github.core.http;
+package com.github.sdk.http;
 
 import java.io.IOException;
 

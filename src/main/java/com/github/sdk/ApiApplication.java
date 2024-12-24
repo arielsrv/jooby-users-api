@@ -1,12 +1,12 @@
-package com.github.core;
+package com.github.sdk;
 
 import static com.google.inject.Guice.createInjector;
 import static io.jooby.rxjava3.Reactivex.rx;
 
 import com.github.ApplicationModule;
 import com.github.Routes;
-import com.github.core.modules.AppModule;
-import com.github.core.modules.PrometheusModule;
+import com.github.sdk.modules.AppModule;
+import com.github.sdk.modules.PrometheusModule;
 import com.google.common.base.Strings;
 import com.google.inject.Injector;
 import io.jooby.Context;

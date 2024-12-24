@@ -1,4 +1,4 @@
-package com.github.core.providers;
+package com.github.sdk.providers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jooby.jackson.JacksonModule;

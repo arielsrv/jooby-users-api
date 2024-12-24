@@ -1,4 +1,4 @@
-package com.github.core.providers;
+package com.github.sdk.providers;
 
 import com.google.inject.Injector;
 import io.jooby.guice.GuiceModule;

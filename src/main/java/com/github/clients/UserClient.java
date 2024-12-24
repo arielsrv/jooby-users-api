@@ -1,7 +1,7 @@
 package com.github.clients;
 
-import com.github.core.http.Response;
-import com.github.core.http.RestClient;
+import com.github.sdk.http.Response;
+import com.github.sdk.http.RestClient;
 import com.github.model.responses.UserResponse;
 import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Inject;
