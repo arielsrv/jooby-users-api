@@ -38,6 +38,7 @@ public abstract class ApiApplication extends Jooby {
 			Class<?> controllerClass = route.type;
 			Object controller = resolve(controllerClass);
 			this.route(route.method, route.path, ctx -> {
+				@SuppressWarnings("unchecked")
 				BiFunction<Context, Object, ?> action = (BiFunction<Context, Object, ?>) route.action;
 				return action.apply(ctx, controller);
 			});
