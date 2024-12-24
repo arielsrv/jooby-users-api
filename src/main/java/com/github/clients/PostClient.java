@@ -36,7 +36,7 @@ public class PostClient {
 	 * @param userId the user id
 	 * @return the post by user id
 	 */
-	public Single<List<PostResponse>> getPostByUserId(long userId) {
+	public Single<List<PostResponse>> getPosts(long userId) {
 		String apiUrl = "%s/users/%d/posts".formatted(this.baseUrl, userId);
 
 		return this.restClient

@@ -76,7 +76,7 @@ public class UserService {
 
 	@NotNull
 	private Single<List<PostDto>> getFromApi(UserDto userDto) {
-		return this.postClient.getPostByUserId(userDto.id).flatMap(postsResponse -> {
+		return this.postClient.getPosts(userDto.id).flatMap(postsResponse -> {
 			List<PostDto> postDtos = new ArrayList<>();
 			for (PostResponse postResponse : postsResponse) {
 				PostDto postDto = new PostDto();

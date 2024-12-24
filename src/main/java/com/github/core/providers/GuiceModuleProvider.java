@@ -10,9 +10,6 @@ import jakarta.inject.Provider;
  */
 public class GuiceModuleProvider implements Provider<GuiceModule> {
 
-	/**
-	 * The Injector.
-	 */
 	@Inject
 	Injector injector;
 

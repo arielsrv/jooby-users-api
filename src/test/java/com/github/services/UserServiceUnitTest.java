@@ -33,7 +33,7 @@ public class UserServiceUnitTest {
 	@Test
 	public void get_Users() {
 		when(this.userClient.getUsers()).thenReturn(getUsers());
-		when(this.postClient.getPostByUserId(anyLong())).thenReturn(getPosts());
+		when(this.postClient.getPosts(anyLong())).thenReturn(getPosts());
 
 		UserService userService = new UserService();
 		userService.userClient = this.userClient;

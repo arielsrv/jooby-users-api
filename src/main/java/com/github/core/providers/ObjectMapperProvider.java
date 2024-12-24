@@ -13,9 +13,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import jakarta.inject.Provider;
 
-/**
- * The type Object mapper provider.
- */
 public class ObjectMapperProvider implements Provider<ObjectMapper> {
 
 	@Override
