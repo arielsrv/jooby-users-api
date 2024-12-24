@@ -21,33 +21,23 @@ import java.util.function.BiFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * The type Api application.
- */
 public abstract class ApiApplication extends Jooby {
 
-	/**
-	 * The Injector.
-	 */
 	protected final Injector injector;
-
 	private static final Logger logger = LoggerFactory.getLogger(ApiApplication.class);
 	private List<ApiRoute<?, ?>> routes;
 
-	/**
-	 * Instantiates a new Api application.
-	 */
 	protected ApiApplication() {
 		this.injector = createInjector(new AppModule());
 		this.init();
-		this.coreSettings();
+		this.use(rx());
+		this.install(resolve(NettyServer.class));
 		this.registerExtensions();
 
 		for (ApiRoute<?, ?> route : this.routes) {
 			Class<?> controllerClass = route.type;
-			Object controller = this.injector.getInstance(controllerClass);
-			this.route(route.verb, route.path, ctx -> {
-				@SuppressWarnings("unchecked")
+			Object controller = resolve(controllerClass);
+			this.route(route.method, route.path, ctx -> {
 				BiFunction<Context, Object, ?> action = (BiFunction<Context, Object, ?>) route.action;
 				return action.apply(ctx, controller);
 			});
@@ -65,18 +55,6 @@ public abstract class ApiApplication extends Jooby {
 
 	public abstract void init();
 
-	private void coreSettings() {
-		this.use(rx());
-		this.registerServer();
-	}
-
-	/**
-	 * Register server.
-	 */
-	protected void registerServer() {
-		this.install(resolve(NettyServer.class));
-	}
-
 	/**
 	 * Register extensions.
 	 */
@@ -87,13 +65,6 @@ public abstract class ApiApplication extends Jooby {
 		this.install(resolve(PrometheusModule.class));
 	}
 
-	/**
-	 * Resolve t.
-	 *
-	 * @param <T>  the type parameter
-	 * @param type the type
-	 * @return the t
-	 */
 	protected <T> T resolve(Class<T> type) {
 		return this.injector.getInstance(type);
 	}
@@ -101,6 +72,16 @@ public abstract class ApiApplication extends Jooby {
 	protected void registerRoutes(Class<Routes> routesClass) {
 		try {
 			this.routes = routesClass.getDeclaredConstructor().newInstance().getApiRoutes();
+
+			for (ApiRoute<?, ?> route : this.routes) {
+				Class<?> controllerClass = route.type;
+				Object controller = this.injector.getInstance(controllerClass);
+				this.route(route.method, route.path, ctx -> {
+					@SuppressWarnings("unchecked")
+					BiFunction<Context, Object, ?> action = (BiFunction<Context, Object, ?>) route.action;
+					return action.apply(ctx, controller);
+				});
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
