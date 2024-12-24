@@ -47,6 +47,9 @@ public abstract class ApiApplication extends Jooby {
 
 		this.setEnvironmentOptions(
 			new EnvironmentOptions().setFilename("config/config.%s.conf".formatted(envVar)));
+
+		String message = this.getConfig().getString("message");
+		System.out.println("Message: " + message);
 	}
 
 	public abstract void init();
