@@ -32,12 +32,6 @@ public class UserService {
 		.build();
 
 	public Single<List<UserDto>> getUsers() {
-		if (this.userClient.restClient == this.postClient.restClient) {
-			System.out.println(
-				"Using the same RestClient instance for both User and Post clients. This might lead to potential issues.");
-		} else {
-			System.out.println("Using different RestClient instances for User and Post clients.");
-		}
 		return this.userClient.getUsers().flatMapObservable(Observable::fromIterable)
 			.flatMapSingle(userResponse -> {
 				UserDto userDto = new UserDto();
