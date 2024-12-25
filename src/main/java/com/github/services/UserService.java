@@ -35,38 +35,39 @@ public class UserService {
 		.build();
 
 	public Single<List<UserDto>> getUsers() {
-		return this.userClient.getUsers().flatMapObservable(Observable::fromIterable)
-			.flatMapSingle(userResponse -> {
-				UserDto userDto = new UserDto();
-				userDto.id = userResponse.id;
-				userDto.name = userResponse.name;
-				userDto.email = userResponse.email;
-				userDto.todos = new ArrayList<>();
-				userDto.posts = new ArrayList<>();
+		return this.userClient.getUsers()
+			.flatMap(users -> Observable.fromIterable(users)
+				.flatMapSingle(user -> {
+					UserDto userDto = new UserDto();
+					userDto.id = user.id;
+					userDto.name = user.name;
+					userDto.email = user.email;
+					userDto.posts = new ArrayList<>();
+					userDto.todos = new ArrayList<>();
 
-				return Single.zip(
-					this.todosClient.getTodos(userDto.id),
-					this.postsClient.getPosts(userDto.id),
-					(todoResponses, postResponses) -> {
-						for (TodoResponse todoResponse : todoResponses) {
-							TodoDto todoDto = new TodoDto();
-							todoDto.id = todoResponse.id;
-							todoDto.title = todoResponse.title;
-							todoDto.status = todoResponse.status;
-							todoDto.dueOn = todoResponse.dueOn;
-							userDto.todos.add(todoDto);
-						}
+					return Single.zip(
+						this.postsClient.getPosts(user.id),
+						this.todosClient.getTodos(user.id),
+						(postsResponse, todosResponse) -> {
+							for (TodoResponse todoResponse : todosResponse) {
+								TodoDto todoDto = new TodoDto();
+								todoDto.id = todoResponse.id;
+								todoDto.title = todoResponse.title;
+								todoDto.status = todoResponse.status;
+								todoDto.dueOn = todoResponse.dueOn;
+								userDto.todos.add(todoDto);
+							}
 
-						for (PostResponse postResponse : postResponses) {
-							PostDto postDto = new PostDto();
-							postDto.id = postResponse.id;
-							postDto.title = postResponse.title;
-							postDto.body = postResponse.body;
-							userDto.posts.add(postDto);
-						}
+							for (PostResponse postResponse : postsResponse) {
+								PostDto postDto = new PostDto();
+								postDto.id = postResponse.id;
+								postDto.title = postResponse.title;
+								postDto.body = postResponse.body;
+								userDto.posts.add(postDto);
+							}
 
-						return userDto;
-					});
-			}).toList();
+							return userDto;
+						});
+				}).toList());
 	}
 }
