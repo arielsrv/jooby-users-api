@@ -6,15 +6,14 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.github.clients.PostClient;
+import com.github.clients.PostsClient;
+import com.github.clients.TodosClient;
 import com.github.clients.UserClient;
-import com.github.model.PostDto;
 import com.github.model.UserDto;
 import com.github.model.responses.PostResponse;
+import com.github.model.responses.TodoResponse;
 import com.github.model.responses.UserResponse;
-import com.google.common.cache.CacheBuilder;
 import io.reactivex.rxjava3.core.Single;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,41 +21,40 @@ import org.junit.jupiter.api.Test;
 public class UserServiceUnitTest {
 
 	private UserClient userClient;
-	private PostClient postClient;
+	private PostsClient postsClient;
+	private TodosClient todosClient;
 
 	@BeforeEach
 	public void setUp() {
 		this.userClient = mock(UserClient.class);
-		this.postClient = mock(PostClient.class);
+		this.postsClient = mock(PostsClient.class);
+		this.todosClient = mock(TodosClient.class);
 	}
 
 	@Test
 	public void get_Users() {
 		when(this.userClient.getUsers()).thenReturn(getUsers());
-		when(this.postClient.getPosts(anyLong())).thenReturn(getPosts());
+		when(this.postsClient.getPosts(anyLong())).thenReturn(getPosts());
+		when(this.todosClient.getTodos(anyLong())).thenReturn(getTodos());
 
 		UserService userService = new UserService();
 		userService.userClient = this.userClient;
-		userService.postClient = this.postClient;
+		userService.postsClient = this.postsClient;
+		userService.todosClient = this.todosClient;
 
 		List<UserDto> actual = userService.getUsers().blockingGet();
 		assertNotNull(actual);
 		assertEquals(1, actual.size());
 	}
 
-	@Test
-	public void get_Users_From_Cache() {
-		when(this.userClient.getUsers()).thenReturn(getUsers());
+	private Single<List<TodoResponse>> getTodos() {
+		TodoResponse todoResponse = new TodoResponse();
+		todoResponse.id = 1;
+		todoResponse.title = "title";
 
-		UserService userService = new UserService();
-		userService.appCache = CacheBuilder.newBuilder().build();
-		userService.appCache.put(1L, getPostsDto());
-		userService.userClient = this.userClient;
-
-		List<UserDto> actual = userService.getUsers().blockingGet();
-		assertNotNull(actual);
-		assertEquals(1, actual.size());
+		return Single.just(List.of(todoResponse));
 	}
+
 
 	private Single<List<UserResponse>> getUsers() {
 		UserResponse userResponse = new UserResponse();
@@ -72,16 +70,5 @@ public class UserServiceUnitTest {
 		postResponse.title = "title";
 
 		return Single.just(List.of(postResponse));
-	}
-
-	private List<PostDto> getPostsDto() {
-		PostDto postDto = new PostDto();
-		postDto.id = 1;
-		postDto.title = "title";
-
-		List<PostDto> postDtos = new ArrayList<>();
-		postDtos.add(postDto);
-
-		return postDtos;
 	}
 }

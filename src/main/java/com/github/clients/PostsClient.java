@@ -10,12 +10,12 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class PostClient {
+public class PostsClient {
 
 	public RestClient restClient;
 
 	@Inject
-	public PostClient(@Named("post-client") RestClient restClient) {
+	public PostsClient(@Named("posts-client") RestClient restClient) {
 		this.restClient = restClient;
 	}
 

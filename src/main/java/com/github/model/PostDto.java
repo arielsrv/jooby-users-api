@@ -6,3 +6,4 @@ public class PostDto {
 	public String title;
 	public String body;
 }
+

@@ -8,4 +8,5 @@ public class UserDto {
 	public String name;
 	public String email;
 	public List<PostDto> posts;
+	public List<TodoDto> todos;
 }

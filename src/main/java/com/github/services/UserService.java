@@ -1,10 +1,13 @@
 package com.github.services;
 
-import com.github.clients.PostClient;
+import com.github.clients.PostsClient;
+import com.github.clients.TodosClient;
 import com.github.clients.UserClient;
 import com.github.model.PostDto;
+import com.github.model.TodoDto;
 import com.github.model.UserDto;
 import com.github.model.responses.PostResponse;
+import com.github.model.responses.TodoResponse;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import io.reactivex.rxjava3.core.Observable;
@@ -22,7 +25,10 @@ public class UserService {
 	public UserClient userClient;
 
 	@Inject
-	public PostClient postClient;
+	public PostsClient postsClient;
+
+	@Inject
+	public TodosClient todosClient;
 
 	public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
 		.expireAfterWrite(1, TimeUnit.MINUTES).concurrencyLevel(4).maximumSize(50).recordStats()
@@ -35,30 +41,32 @@ public class UserService {
 				userDto.id = userResponse.id;
 				userDto.name = userResponse.name;
 				userDto.email = userResponse.email;
+				userDto.todos = new ArrayList<>();
+				userDto.posts = new ArrayList<>();
 
-				List<PostDto> cachedPosts = this.appCache.getIfPresent(userDto.id);
-				if (cachedPosts != null) {
-					userDto.posts = cachedPosts;
-					return Single.just(userDto);
-				}
+				return Single.zip(
+					this.todosClient.getTodos(userDto.id),
+					this.postsClient.getPosts(userDto.id),
+					(todoResponses, postResponses) -> {
+						for (TodoResponse todoResponse : todoResponses) {
+							TodoDto todoDto = new TodoDto();
+							todoDto.id = todoResponse.id;
+							todoDto.title = todoResponse.title;
+							todoDto.status = todoResponse.status;
+							todoDto.dueOn = todoResponse.dueOn;
+							userDto.todos.add(todoDto);
+						}
 
-				return this.postClient.getPosts(userDto.id).map(postsResponse -> {
-					List<PostDto> postDtos = new ArrayList<>();
-					for (PostResponse postResponse : postsResponse) {
-						PostDto postDto = new PostDto();
-						postDto.id = postResponse.id;
-						postDto.title = postResponse.title;
-						postDto.body = postResponse.body;
-						postDtos.add(postDto);
-					}
-					return postDtos;
-				}).doOnSuccess(posts -> {
-					this.appCache.put(userDto.id, posts);
-				}).map(posts -> {
-					userDto.posts = posts;
-					return userDto;
-				});
+						for (PostResponse postResponse : postResponses) {
+							PostDto postDto = new PostDto();
+							postDto.id = postResponse.id;
+							postDto.title = postResponse.title;
+							postDto.body = postResponse.body;
+							userDto.posts.add(postDto);
+						}
+
+						return userDto;
+					});
 			}).toList();
 	}
-
 }

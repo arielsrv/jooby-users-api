@@ -6,3 +6,4 @@ public class PostResponse {
 	public String title;
 	public String body;
 }
+
