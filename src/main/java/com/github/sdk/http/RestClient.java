@@ -7,7 +7,6 @@ import jakarta.inject.Singleton;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-@Singleton
 public class RestClient {
 
 	@Inject
