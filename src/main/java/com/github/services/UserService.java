@@ -25,10 +25,7 @@ public class UserService {
 	public PostClient postClient;
 
 	public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
-		.expireAfterWrite(1, TimeUnit.MINUTES)
-		.concurrencyLevel(4)
-		.maximumSize(50)
-		.recordStats()
+		.expireAfterWrite(1, TimeUnit.MINUTES).concurrencyLevel(4).maximumSize(50).recordStats()
 		.build();
 
 	public Single<List<UserDto>> getUsers() {
@@ -39,31 +36,29 @@ public class UserService {
 				userDto.name = userResponse.name;
 				userDto.email = userResponse.email;
 
-				userDto.posts = this.appCache.getIfPresent(userDto.id);
-				if (userDto.posts != null) {
+				List<PostDto> cachedPosts = this.appCache.getIfPresent(userDto.id);
+				if (cachedPosts != null) {
+					userDto.posts = cachedPosts;
 					return Single.just(userDto);
 				}
 
-				return getFromApi(userDto).flatMap(postResponse -> {
-					userDto.posts = postResponse;
-					this.appCache.put(userDto.id, userDto.posts);
-					return Single.just(userDto);
+				return this.postClient.getPosts(userDto.id).map(postsResponse -> {
+					List<PostDto> postDtos = new ArrayList<>();
+					for (PostResponse postResponse : postsResponse) {
+						PostDto postDto = new PostDto();
+						postDto.id = postResponse.id;
+						postDto.title = postResponse.title;
+						postDto.body = postResponse.body;
+						postDtos.add(postDto);
+					}
+					return postDtos;
+				}).doOnSuccess(posts -> {
+					this.appCache.put(userDto.id, posts);
+				}).map(posts -> {
+					userDto.posts = posts;
+					return userDto;
 				});
-			}).collect(ArrayList::new, List::add);
+			}).toList();
 	}
 
-	private Single<List<PostDto>> getFromApi(UserDto userDto) {
-		return this.postClient.getPosts(userDto.id).flatMap(postsResponse -> {
-			List<PostDto> postDtos = new ArrayList<>();
-			for (PostResponse postResponse : postsResponse) {
-				PostDto postDto = new PostDto();
-				postDto.id = postResponse.id;
-				postDto.title = postResponse.title;
-				postDto.body = postResponse.body;
-				postDtos.add(postDto);
-			}
-
-			return Single.just(postDtos);
-		});
-	}
 }
