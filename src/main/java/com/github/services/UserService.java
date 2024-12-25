@@ -30,7 +30,7 @@ public class UserService {
 	@Inject
 	public TodosClient todosClient;
 
-	public Cache<Long, List<PostDto>> appCache = CacheBuilder.newBuilder()
+	public Cache<Long, UserDto> appCache = CacheBuilder.newBuilder()
 		.expireAfterWrite(1, TimeUnit.MINUTES).concurrencyLevel(4).maximumSize(50).recordStats()
 		.build();
 
@@ -38,6 +38,11 @@ public class UserService {
 		return this.userClient.getUsers()
 			.flatMap(users -> Observable.fromIterable(users)
 				.flatMapSingle(userResponse -> {
+					UserDto cachedUser = this.appCache.getIfPresent(userResponse.id);
+					if (cachedUser != null) {
+						return Single.just(cachedUser);
+					}
+
 					UserDto userDto = new UserDto();
 					userDto.id = userResponse.id;
 					userDto.name = userResponse.name;
@@ -65,6 +70,8 @@ public class UserService {
 								postDto.body = postResponse.body;
 								userDto.posts.add(postDto);
 							}
+
+							this.appCache.put(userResponse.id, userDto);
 
 							return userDto;
 						});
