@@ -13,8 +13,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import jakarta.inject.Provider;
 import jakarta.inject.Singleton;
-import java.text.DateFormat;
-import java.time.format.DateTimeFormatter;
 
 @Singleton
 public class ObjectMapperProvider implements Provider<ObjectMapper> {
@@ -33,7 +31,6 @@ public class ObjectMapperProvider implements Provider<ObjectMapper> {
 		objectMapper.registerModule(new ParameterNamesModule());
 		objectMapper.registerModule(new Jdk8Module());
 		objectMapper.registerModule(new JavaTimeModule());
-
 
 		return objectMapper;
 	}

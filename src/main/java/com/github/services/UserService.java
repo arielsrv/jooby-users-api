@@ -37,17 +37,17 @@ public class UserService {
 	public Single<List<UserDto>> getUsers() {
 		return this.userClient.getUsers()
 			.flatMap(users -> Observable.fromIterable(users)
-				.flatMapSingle(user -> {
+				.flatMapSingle(userResponse -> {
 					UserDto userDto = new UserDto();
-					userDto.id = user.id;
-					userDto.name = user.name;
-					userDto.email = user.email;
+					userDto.id = userResponse.id;
+					userDto.name = userResponse.name;
+					userDto.email = userResponse.email;
 					userDto.posts = new ArrayList<>();
 					userDto.todos = new ArrayList<>();
 
 					return Single.zip(
-						this.postsClient.getPosts(user.id),
-						this.todosClient.getTodos(user.id),
+						this.postsClient.getPosts(userResponse.id),
+						this.todosClient.getTodos(userResponse.id),
 						(postsResponse, todosResponse) -> {
 							for (TodoResponse todoResponse : todosResponse) {
 								TodoDto todoDto = new TodoDto();

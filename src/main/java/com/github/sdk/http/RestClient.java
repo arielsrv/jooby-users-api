@@ -11,13 +11,11 @@ import okhttp3.RequestBody;
 
 public class RestClient {
 
+	private final String baseUrl;
 	@Inject
 	public OkHttpClient okHttpClient;
-
 	@Inject
 	public ObjectMapper objectMapper;
-
-	private final String baseUrl;
 
 	@Inject
 	public RestClient(String baseUrl) {

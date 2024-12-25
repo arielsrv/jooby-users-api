@@ -12,7 +12,7 @@ import java.util.List;
 @Singleton
 public class PostsClient {
 
-	public RestClient restClient;
+	private final RestClient restClient;
 
 	@Inject
 	public PostsClient(@Named("posts-client") RestClient restClient) {
