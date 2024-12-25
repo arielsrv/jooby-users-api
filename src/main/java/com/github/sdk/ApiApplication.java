@@ -3,11 +3,10 @@ package com.github.sdk;
 import static com.google.inject.Guice.createInjector;
 import static io.jooby.rxjava3.Reactivex.rx;
 
-import com.github.ApplicationModule;
 import com.github.Routes;
-import com.github.sdk.modules.AppModule;
 import com.github.sdk.modules.PrometheusModule;
 import com.google.common.base.Strings;
+import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import io.jooby.Context;
 import io.jooby.EnvironmentOptions;
@@ -16,6 +15,7 @@ import io.jooby.OpenAPIModule;
 import io.jooby.guice.GuiceModule;
 import io.jooby.jackson.JacksonModule;
 import io.jooby.netty.NettyServer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -23,10 +23,12 @@ public abstract class ApiApplication extends Jooby {
 
 	protected final Injector injector;
 	private List<ApiRoute<?, ?>> routes;
+	private AbstractModule module;
+
 
 	protected ApiApplication() {
-		this.injector = createInjector(new AppModule());
 		this.init();
+		this.injector = createInjector(this.module);
 		this.use(rx());
 		this.registerServer();
 		this.registerExtensions();
@@ -54,7 +56,6 @@ public abstract class ApiApplication extends Jooby {
 
 	public abstract void init();
 
-
 	protected void registerServer() {
 		this.install(resolve(NettyServer.class));
 	}
@@ -62,8 +63,7 @@ public abstract class ApiApplication extends Jooby {
 	protected void registerExtensions() {
 		this.install(resolve(GuiceModule.class));
 		this.install(resolve(JacksonModule.class));
-		this.install(resolve(OpenAPIModule.class));
-		this.install(resolve(PrometheusModule.class));
+
 	}
 
 	protected <T> T resolve(Class<T> type) {
@@ -78,7 +78,13 @@ public abstract class ApiApplication extends Jooby {
 		}
 	}
 
-	protected void registerDependencyInjectionModule(
-		Class<ApplicationModule> applicationModuleClass) {
+	protected void registerInjectionModule(
+		Class<? extends AbstractModule> applicationModuleClass) {
+		try {
+			this.module = applicationModuleClass.getConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+				 NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

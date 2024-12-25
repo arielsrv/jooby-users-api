@@ -13,7 +13,7 @@ import io.jooby.netty.NettyServer;
 /**
  * The type App module.
  */
-public class AppModule extends AbstractModule {
+public class InjectionModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
