@@ -82,7 +82,7 @@ public abstract class ApiApplication extends Jooby {
 	protected void registerInjectionModule(
 		Class<? extends AbstractModule> applicationModuleClass) {
 		try {
-			this.module = applicationModuleClass.getConstructor().newInstance();
+			this.module = applicationModuleClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
 				 NoSuchMethodException e) {
 			throw new RuntimeException(e);
