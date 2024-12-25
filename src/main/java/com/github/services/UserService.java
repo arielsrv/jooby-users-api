@@ -31,7 +31,7 @@ public class UserService {
 	public TodosClient todosClient;
 
 	public Cache<Long, UserDto> appCache = CacheBuilder.newBuilder()
-		.expireAfterWrite(1, TimeUnit.MINUTES).concurrencyLevel(4).maximumSize(50).recordStats()
+		.expireAfterWrite(1, TimeUnit.HOURS).concurrencyLevel(4).maximumSize(50).recordStats()
 		.build();
 
 	public Single<List<UserDto>> getUsers() {
