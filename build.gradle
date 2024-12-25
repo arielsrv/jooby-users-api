@@ -19,7 +19,12 @@ plugins {
 
 group "app"
 version "1.0.0"
-mainClassName = "com.github.Program"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    mainClassName = "com.github.Program"
+}
 
 repositories {
     mavenLocal()
