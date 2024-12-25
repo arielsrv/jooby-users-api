@@ -4,14 +4,12 @@ import static com.google.inject.Guice.createInjector;
 import static io.jooby.rxjava3.Reactivex.rx;
 
 import com.github.Routes;
-import com.github.sdk.modules.PrometheusModule;
 import com.google.common.base.Strings;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import io.jooby.Context;
 import io.jooby.EnvironmentOptions;
 import io.jooby.Jooby;
-import io.jooby.OpenAPIModule;
 import io.jooby.guice.GuiceModule;
 import io.jooby.jackson.JacksonModule;
 import io.jooby.netty.NettyServer;
