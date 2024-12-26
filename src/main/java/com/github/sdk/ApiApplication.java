@@ -22,7 +22,7 @@ import java.util.function.BiFunction;
 public abstract class ApiApplication extends Jooby {
 
 	protected final Injector injector;
-	private List<ApiRoute<?, ?>> routes;
+	private List<ApiRoute<?>> routes;
 	private AbstractModule module;
 
 
@@ -34,7 +34,7 @@ public abstract class ApiApplication extends Jooby {
 		this.registerExtensions();
 
 		this.routes.forEach(route -> {
-			Object controller = resolve(route.type);
+			Object controller = Resolve(route.type);
 			this.route(route.verb, route.path, ctx -> {
 				@SuppressWarnings("unchecked")
 				BiFunction<Context, Object, ?> action = (BiFunction<Context, Object, ?>) route.action;
@@ -57,17 +57,17 @@ public abstract class ApiApplication extends Jooby {
 	public abstract void init();
 
 	protected void registerServer() {
-		this.install(resolve(NettyServer.class));
+		this.install(Resolve(NettyServer.class));
 	}
 
 	protected void registerExtensions() {
-		this.install(resolve(GuiceModule.class));
-		this.install(resolve(JacksonModule.class));
-		this.install(resolve(OpenAPIModule.class));
-		this.install(resolve(PrometheusModule.class));
+		this.install(Resolve(GuiceModule.class));
+		this.install(Resolve(JacksonModule.class));
+		this.install(Resolve(OpenAPIModule.class));
+		this.install(Resolve(PrometheusModule.class));
 	}
 
-	protected <T> T resolve(Class<T> type) {
+	protected <T> T Resolve(Class<T> type) {
 		return this.injector.getInstance(type);
 	}
 

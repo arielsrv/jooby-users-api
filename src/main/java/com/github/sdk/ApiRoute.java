@@ -1,1 +1,1 @@
-package com.github.sdk;import io.jooby.Context;import java.util.function.BiFunction;public class ApiRoute<TController, TResult> {	public String verb;	public String path;	public Class<TController> type;	public BiFunction<Context, ?, ?> action;}
+package com.github.sdk;import io.jooby.Context;import java.util.function.BiFunction;public class ApiRoute<TController extends BaseController> {	public String verb;	public String path;	public Class<TController> type;	public BiFunction<Context, ?, ?> action;}

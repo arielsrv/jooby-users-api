@@ -1,6 +1,7 @@
 package com.github.controllers;
 
 import com.github.model.UserDto;
+import com.github.sdk.BaseController;
 import com.github.services.UserService;
 import io.jooby.Context;
 import io.reactivex.rxjava3.core.Single;
@@ -9,7 +10,7 @@ import jakarta.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class UserController {
+public class UserController extends BaseController {
 
 	@Inject
 	public UserService userService;
