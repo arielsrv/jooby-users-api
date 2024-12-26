@@ -15,7 +15,7 @@ public class PostsClient {
 	private final RestClient restClient;
 
 	@Inject
-	public PostsClient(@Named("posts-client") RestClient restClient) {
+	public PostsClient(@Named("gorest-client") RestClient restClient) {
 		this.restClient = restClient;
 	}
 
