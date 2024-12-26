@@ -42,12 +42,12 @@ public class UserService {
 	public Single<List<UserDto>> getUsers() {
 		return this.userClient.getUsers()
 			.flatMap(users -> Observable.fromIterable(users)
-				.flatMapSingle(this::fetchUserDto)
+				.flatMapSingle(this::fetchAndComplete)
 				.toList());
 	}
 
 	@NotNull
-	private Single<UserDto> fetchUserDto(UserResponse userResponse) {
+	private Single<UserDto> fetchAndComplete(UserResponse userResponse) {
 		UserDto cachedUserDto = this.appCache.getIfPresent(userResponse.id);
 		if (cachedUserDto != null) {
 			return Single.just(cachedUserDto);
