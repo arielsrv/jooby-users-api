@@ -3,6 +3,8 @@ package com.github.sdk.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import java.util.concurrent.TimeUnit;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -13,7 +15,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 public class RestClient {
 
 	private final String baseUrl;
-	@Inject
+
 	public OkHttpClient okHttpClient;
 	@Inject
 	public ObjectMapper objectMapper;
@@ -21,8 +23,12 @@ public class RestClient {
 	public UrlValidator urlValidator;
 
 	@Inject
-	public RestClient(String baseUrl) {
+	public RestClient(String baseUrl, long connectTimeout, long callTimeout) {
 		this.baseUrl = baseUrl;
+		this.okHttpClient = new OkHttpClient().newBuilder()
+			.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+			.callTimeout(callTimeout, TimeUnit.MILLISECONDS)
+			.build();
 	}
 
 	public <T> Single<Response<T>> get(String url, Class<T> clazz) {
