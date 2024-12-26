@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Request.Builder;
 import okhttp3.RequestBody;
+import org.apache.commons.validator.routines.UrlValidator;
 
 public class RestClient {
 
@@ -16,6 +17,8 @@ public class RestClient {
 	public OkHttpClient okHttpClient;
 	@Inject
 	public ObjectMapper objectMapper;
+	@Inject
+	public UrlValidator urlValidator;
 
 	@Inject
 	public RestClient(String baseUrl) {
@@ -23,21 +26,17 @@ public class RestClient {
 	}
 
 	public <T> Single<Response<T>> get(String url, Class<T> clazz) {
-		return createRequest("GET", url, clazz);
-	}
-
-	public <B, T> Single<Response<T>> post(String url, B body, Class<T> clazz) {
-		return createRequest("POST", url, body, clazz);
-	}
-
-	public <T> Single<Response<T>> createRequest(String method, String url,
-		Class<T> clazz) {
-		return createRequest(method, url, null, clazz);
+		return createRequest("GET", url, null, clazz);
 	}
 
 	public <B, T> Single<Response<T>> createRequest(String method, String url, B body,
 		Class<T> clazz) {
+
 		String apiUrl = "%s%s".formatted(this.baseUrl, url);
+		if (!this.urlValidator.isValid(apiUrl)) {
+			return Single.error(
+				new IllegalArgumentException("invalid API URL: %s".formatted(apiUrl)));
+		}
 
 		RequestBody requestBody = null;
 		if (body != null) {

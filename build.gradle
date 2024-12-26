@@ -44,6 +44,7 @@ dependencies {
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
     implementation "io.jooby:jooby-netty"
+    implementation 'commons-validator:commons-validator:1.9.0'
 
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
     implementation "ch.qos.logback:logback-classic:1.5.15"
