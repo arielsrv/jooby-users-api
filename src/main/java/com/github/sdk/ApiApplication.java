@@ -34,10 +34,10 @@ public abstract class ApiApplication extends Jooby {
 		this.registerExtensions();
 
 		this.routes.forEach(route -> {
-			Object controller = Resolve(route.type);
+			BaseController controller = Resolve(route.type);
 			this.route(route.verb, route.path, ctx -> {
 				@SuppressWarnings("unchecked")
-				BiFunction<Context, Object, ?> action = (BiFunction<Context, Object, ?>) route.action;
+				BiFunction<Context, BaseController, ?> action = (BiFunction<Context, BaseController, ?>) route.action;
 				return action.apply(ctx, controller);
 			});
 		});
