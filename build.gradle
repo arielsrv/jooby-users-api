@@ -14,11 +14,12 @@ plugins {
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.51.0"
+    id "com.diffplug.spotless" version "7.0.0.BETA4"
     id "jacoco"
 }
 
-group "app"
-version "1.0.0"
+group = "app"
+version = "1.0.0"
 
 java {
     mainClassName = "com.github.Program"
