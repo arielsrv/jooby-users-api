@@ -36,7 +36,7 @@ public class UserClient {
 			"Bearer xxx");
 
 		return this.restClient
-			.createRequest("POST", apiUrl, createUserRequest, headers, UserResponse.class)
+			.post(apiUrl, createUserRequest, headers, UserResponse.class)
 			.doOnSuccess(Response::verifyOkOrFail)
 			.map(response -> response.getData().id);
 	}
