@@ -17,7 +17,7 @@ public abstract class ApiRoutes {
 		String verb,
 		String path,
 		Class<TController> type,
-		BiFunction<Context, TController, TResult> action) {
+		BiFunction<ApiContext, TController, TResult> action) {
 
 		ApiRoute<TController> route = new ApiRoute<>();
 		route.verb = verb;
@@ -31,9 +31,17 @@ public abstract class ApiRoutes {
 	protected final <TController extends ApiController, TResult> void get(
 		String path,
 		Class<TController> type,
-		BiFunction<Context, TController, TResult> action) {
+		BiFunction<ApiContext, TController, TResult> action) {
 
 		add("GET", path, type, action);
+	}
+
+	protected final <TController extends ApiController, TResult> void post(
+		String path,
+		Class<TController> type,
+		BiFunction<ApiContext, TController, TResult> action) {
+
+		add("POST", path, type, action);
 	}
 
 	public List<ApiRoute<?>> getRoutes() {

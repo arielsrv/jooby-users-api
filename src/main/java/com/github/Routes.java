@@ -9,5 +9,8 @@ public class Routes extends ApiRoutes {
 	public void register() {
 		get("/users", UserController.class,
 			(context, userController) -> userController.getUsers(context));
+
+		post("/users", UserController.class,
+			(context, userController) -> userController.createUser(context));
 	}
 }

@@ -3,12 +3,12 @@ package com.github.sdk;
 import static com.google.inject.Guice.createInjector;
 import static io.jooby.rxjava3.Reactivex.rx;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.Routes;
 import com.github.sdk.modules.PrometheusModule;
 import com.google.common.base.Strings;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
-import io.jooby.Context;
 import io.jooby.EnvironmentOptions;
 import io.jooby.Jooby;
 import io.jooby.OpenAPIModule;
@@ -37,8 +37,10 @@ public abstract class ApiApplication extends Jooby {
 			ApiController controller = Resolve(route.type);
 			this.route(route.verb, route.path, ctx -> {
 				@SuppressWarnings("unchecked")
-				BiFunction<Context, ApiController, ?> action = (BiFunction<Context, ApiController, ?>) route.action;
-				return action.apply(ctx, controller);
+				BiFunction<ApiContext, ApiController, ?> action = (BiFunction<ApiContext, ApiController, ?>) route.action;
+				ObjectMapper objectMapper = this.Resolve(ObjectMapper.class);
+				ApiContext apiCtx = new ApiContext(ctx, objectMapper);
+				return action.apply(apiCtx, controller);
 			});
 		});
 

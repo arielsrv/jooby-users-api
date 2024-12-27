@@ -8,5 +8,5 @@ public class ApiRoute<TController extends ApiController> {
 	public String verb;
 	public String path;
 	public Class<TController> type;
-	public BiFunction<Context, TController, ?> action;
+	public BiFunction<ApiContext, TController, ?> action;
 }

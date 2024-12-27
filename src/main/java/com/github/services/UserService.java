@@ -3,9 +3,11 @@ package com.github.services;
 import com.github.clients.PostsClient;
 import com.github.clients.TodosClient;
 import com.github.clients.UserClient;
+import com.github.model.CreateUserDto;
 import com.github.model.PostDto;
 import com.github.model.TodoDto;
 import com.github.model.UserDto;
+import com.github.model.requests.CreateUserRequest;
 import com.github.model.responses.PostResponse;
 import com.github.model.responses.TodoResponse;
 import com.github.model.responses.UserResponse;
@@ -85,5 +87,16 @@ public class UserService {
 
 				return userDto;
 			});
+	}
+
+	public Single<Long> createUser(CreateUserDto createUserDto) {
+		CreateUserRequest createUserRequest = new CreateUserRequest();
+
+		createUserRequest.name = createUserDto.name;
+		createUserRequest.email = createUserDto.email;
+		createUserRequest.gender = createUserDto.gender;
+		createUserRequest.status = createUserDto.status;
+
+		return this.userClient.createUser(createUserRequest);
 	}
 }
