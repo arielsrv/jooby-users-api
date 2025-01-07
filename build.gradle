@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        joobyVersion = "3.5.5"
+        joobyVersion = "3.6.0"
         jupiterVersion = "5.11.4"
         okHttpVersion = "4.12.0"
     }
