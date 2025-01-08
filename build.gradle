@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        joobyVersion = "3.5.5"
+        joobyVersion = "3.6.0"
         jupiterVersion = "5.11.4"
         okHttpVersion = "4.12.0"
     }
@@ -14,15 +14,15 @@ plugins {
     id "com.google.osdetector" version "1.7.3"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "com.github.ben-manes.versions" version "0.51.0"
-    id "com.diffplug.spotless" version "7.0.0"
+    id "com.diffplug.spotless" version "7.0.1"
     id "jacoco"
 }
 
 group = "app"
 version = "1.0.0"
 
-java {
-    mainClassName = "com.github.Program"
+application {
+    mainClass = "com.github.Program"
 }
 
 repositories {
