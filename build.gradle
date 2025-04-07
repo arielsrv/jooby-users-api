@@ -52,7 +52,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
     testImplementation "io.jooby:jooby-test"
-    testImplementation "org.mockito:mockito-core:5.15.2"
+    testImplementation "org.mockito:mockito-core:5.17.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }
 
