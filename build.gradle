@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        joobyVersion = "3.10.0"
-        jupiterVersion = "5.13.2"
-        okHttpVersion = "5.1.0"
+        joobyVersion = "3.6.1"
+        jupiterVersion = "6.1.0-M1"
+        okHttpVersion = "5.3.2"
     }
 }
 
@@ -12,9 +12,9 @@ plugins {
     id "io.jooby.run" version "${joobyVersion}"
     id "io.spring.dependency-management" version "1.1.7"
     id "com.google.osdetector" version "1.7.3"
-    id "com.github.johnrengelman.shadow" version "8.1.1"
-    id "com.github.ben-manes.versions" version "0.52.0"
-    id "com.diffplug.spotless" version "7.2.1"
+    id "com.gradleup.shadow" version "9.0.0-beta4"
+    id "com.github.ben-manes.versions" version "0.53.0"
+    id "com.diffplug.spotless" version "8.1.0"
     id "jacoco"
 }
 
@@ -43,17 +43,16 @@ dependencies {
     implementation "io.jooby:jooby-guice:$joobyVersion"
     implementation "io.jooby:jooby-jackson:$joobyVersion"
     implementation "io.jooby:jooby-rxjava3:$joobyVersion"
-    implementation "io.jooby:jooby-netty"
-    implementation 'commons-validator:commons-validator:1.10.0'
+    implementation 'commons-validator:commons-validator:1.10.1'
 
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    implementation "ch.qos.logback:logback-classic:1.5.18"
+    implementation "ch.qos.logback:logback-classic:1.5.23"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
-    testImplementation "org.junit.platform:junit-platform-launcher:1.13.4"
+    testImplementation "org.junit.platform:junit-platform-launcher:$jupiterVersion"
     testImplementation "io.jooby:jooby-test"
-    testImplementation "org.mockito:mockito-core:5.18.0"
+    testImplementation "org.mockito:mockito-core:5.21.0"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 }
 
