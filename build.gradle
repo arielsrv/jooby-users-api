@@ -12,9 +12,9 @@ plugins {
     id "io.jooby.run" version "${joobyVersion}"
     id "io.spring.dependency-management" version "1.1.7"
     id "com.google.osdetector" version "1.7.3"
-    id "com.gradleup.shadow" version "9.0.0-beta4"
+    id "com.gradleup.shadow" version "9.3.1"
     id "com.github.ben-manes.versions" version "0.53.0"
-    id "com.diffplug.spotless" version "8.1.0"
+    id "com.diffplug.spotless" version "8.2.1"
     id "jacoco"
 }
 
@@ -46,7 +46,7 @@ dependencies {
     implementation 'commons-validator:commons-validator:1.10.1'
 
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    implementation "ch.qos.logback:logback-classic:1.5.23"
+    implementation "ch.qos.logback:logback-classic:1.5.27"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
